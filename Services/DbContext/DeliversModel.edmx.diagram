@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="d77e5a8e12274eaeb88f1e0c540d227a" Name="Diagram1" ZoomLevel="65">
+        <EntityTypeShape EntityType="DeliversModel.AspNetRole" Width="1.5" PointX="0.5" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DeliversModel.AspNetUserClaim" Width="1.875" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="DeliversModel.AspNetUserLogin" Width="2.125" PointX="5.25" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DeliversModel.ItemDetail" Width="1.5" PointX="9.625" PointY="1.5" />
+        <EntityTypeShape EntityType="DeliversModel.ListItem" Width="1.5" PointX="7.375" PointY="1" />
+        <AssociationConnector Association="DeliversModel.FK_ItemDetail_ItemDetail" />
+        <EntityTypeShape EntityType="DeliversModel.OrderDetail" Width="1.5" PointX="11.875" PointY="6.625" />
+        <AssociationConnector Association="DeliversModel.FK_OrderDetails_ItemDetail" />
+        <EntityTypeShape EntityType="DeliversModel.AspNetUser" Width="2.125" PointX="2.75" PointY="2.25" />
+        <AssociationConnector Association="DeliversModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="DeliversModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="DeliversModel.FK_AspNetUsers_AspNetUsers" />
+        <AssociationConnector Association="DeliversModel.AspNetUserRoles" />
+        <EntityTypeShape EntityType="DeliversModel.Rating" Width="1.5" PointX="9.625" PointY="6" />
+        <AssociationConnector Association="DeliversModel.FK_Rating_AspNetUsers" />
+        <AssociationConnector Association="DeliversModel.FK_Rating_ListItems" />
+        <EntityTypeShape EntityType="DeliversModel.Order" Width="1.5" PointX="5" PointY="6.625" />
+        <AssociationConnector Association="DeliversModel.FK_Order_AspNetUsers" />
+        <AssociationConnector Association="DeliversModel.FK_OrderDetails_Order" />
+        <EntityTypeShape EntityType="DeliversModel.ListItems_Favt" Width="1.5" PointX="12.625" PointY="2.75" />
+        <AssociationConnector Association="DeliversModel.FK_ListItems_Favt_AspNetUsers" />
+        <AssociationConnector Association="DeliversModel.FK_ListItems_Favt_ListItems" />
+        <EntityTypeShape EntityType="DeliversModel.App" Width="1.5" PointX="5.375" PointY="11.5" />
+        <EntityTypeShape EntityType="DeliversModel.Token" Width="1.5" PointX="7.625" PointY="10.375" />
+        <AssociationConnector Association="DeliversModel.FK_Token_App" />
+        <AssociationConnector Association="DeliversModel.FK_Token_Token" />
+        <EntityTypeShape EntityType="DeliversModel.Notification" Width="1.5" PointX="0.75" PointY="9.75" />
+        <EntityTypeShape EntityType="DeliversModel.User_Rest_Map" Width="1.5" PointX="10.375" PointY="9.75" />
+        <EntityTypeShape EntityType="DeliversModel.Rider_Location_Map" Width="1.5" PointX="5.625" PointY="14.625" />
+        <AssociationConnector Association="DeliversModel.FK_Rider_Location_Map_AspNetUsers" />
+        <EntityTypeShape EntityType="DeliversModel.OrderHistory" Width="1.5" PointX="7.25" PointY="7.25" />
+        <AssociationConnector Association="DeliversModel.FK_OrderHistory_Order" />
+        <EntityTypeShape EntityType="DeliversModel.ListCategory" Width="1.5" PointX="0.75" PointY="12.75" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

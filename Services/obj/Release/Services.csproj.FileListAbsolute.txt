@@ -1,0 +1,13 @@
+D:\Work\Projects\Delives.pk\Services\bin\Release\Services.dll.config
+D:\Work\Projects\Delives.pk\Services\bin\Release\Services.dll
+D:\Work\Projects\Delives.pk\Services\bin\Release\Services.pdb
+D:\Work\Projects\Delives.pk\Services\bin\Release\EntityFramework.dll
+D:\Work\Projects\Delives.pk\Services\bin\Release\EntityFramework.SqlServer.dll
+D:\Work\Projects\Delives.pk\Services\bin\Release\EntityFramework.xml
+D:\Work\Projects\Delives.pk\Services\bin\Release\EntityFramework.SqlServer.xml
+D:\Work\Projects\Delives.pk\Services\obj\Release\Services.dll
+D:\Work\Projects\Delives.pk\Services\obj\Release\Services.pdb
+D:\Work\Projects\Delives.pk\Services\obj\Release\Services.csprojResolveAssemblyReference.cache
+D:\Work\Projects\Delives.pk\Services\bin\Release\Newtonsoft.Json.dll
+D:\Work\Projects\Delives.pk\Services\bin\Release\Newtonsoft.Json.pdb
+D:\Work\Projects\Delives.pk\Services\bin\Release\Newtonsoft.Json.xml

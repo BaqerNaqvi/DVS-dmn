@@ -1,0 +1,513 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DeliversModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="AspNetRole">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="AspNetUsers" Relationship="DeliversModel.AspNetUserRoles" FromRole="AspNetRole" ToRole="AspNetUser" />
+  </EntityType>
+  <EntityType Name="AspNetUserClaim">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUser" Relationship="DeliversModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaim" ToRole="AspNetUser" />
+  </EntityType>
+  <EntityType Name="AspNetUserLogin">
+    <Key>
+      <PropertyRef Name="LoginProvider" />
+      <PropertyRef Name="ProviderKey" />
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="LoginProvider" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ProviderKey" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="AspNetUser" Relationship="DeliversModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogin" ToRole="AspNetUser" />
+  </EntityType>
+  <EntityContainer Name="DeliversEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRole" />
+    <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaim" />
+    <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogin" />
+    <EntitySet Name="ItemDetails" EntityType="DeliversModel.ItemDetail" />
+    <EntitySet Name="ListItems" EntityType="DeliversModel.ListItem" />
+    <AssociationSet Name="FK_ItemDetail_ItemDetail" Association="DeliversModel.FK_ItemDetail_ItemDetail">
+      <End Role="ListItem" EntitySet="ListItems" />
+      <End Role="ItemDetail" EntitySet="ItemDetails" />
+    </AssociationSet>
+    <EntitySet Name="OrderDetails" EntityType="DeliversModel.OrderDetail" />
+    <AssociationSet Name="FK_OrderDetails_ItemDetail" Association="DeliversModel.FK_OrderDetails_ItemDetail">
+      <End Role="ItemDetail" EntitySet="ItemDetails" />
+      <End Role="OrderDetail" EntitySet="OrderDetails" />
+    </AssociationSet>
+    <EntitySet Name="AspNetUsers" EntityType="DeliversModel.AspNetUser" />
+    <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="DeliversModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserClaim" EntitySet="AspNetUserClaims" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="DeliversModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserLogin" EntitySet="AspNetUserLogins" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AspNetUsers_AspNetUsers" Association="DeliversModel.FK_AspNetUsers_AspNetUsers">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="AspNetUser1" EntitySet="AspNetUsers" />
+    </AssociationSet>
+    <AssociationSet Name="AspNetUserRoles" Association="DeliversModel.AspNetUserRoles">
+      <End Role="AspNetRole" EntitySet="AspNetRoles" />
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+    </AssociationSet>
+    <EntitySet Name="Ratings" EntityType="DeliversModel.Rating" />
+    <AssociationSet Name="FK_Rating_AspNetUsers" Association="DeliversModel.FK_Rating_AspNetUsers">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="Rating" EntitySet="Ratings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Rating_ListItems" Association="DeliversModel.FK_Rating_ListItems">
+      <End Role="ListItem" EntitySet="ListItems" />
+      <End Role="Rating" EntitySet="Ratings" />
+    </AssociationSet>
+    <EntitySet Name="Orders" EntityType="DeliversModel.Order" />
+    <AssociationSet Name="FK_Order_AspNetUsers" Association="DeliversModel.FK_Order_AspNetUsers">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="Order" EntitySet="Orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderDetails_Order" Association="DeliversModel.FK_OrderDetails_Order">
+      <End Role="Order" EntitySet="Orders" />
+      <End Role="OrderDetail" EntitySet="OrderDetails" />
+    </AssociationSet>
+    <EntitySet Name="ListItems_Favt" EntityType="DeliversModel.ListItems_Favt" />
+    <AssociationSet Name="FK_ListItems_Favt_AspNetUsers" Association="DeliversModel.FK_ListItems_Favt_AspNetUsers">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="ListItems_Favt" EntitySet="ListItems_Favt" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ListItems_Favt_ListItems" Association="DeliversModel.FK_ListItems_Favt_ListItems">
+      <End Role="ListItem" EntitySet="ListItems" />
+      <End Role="ListItems_Favt" EntitySet="ListItems_Favt" />
+    </AssociationSet>
+    <EntitySet Name="Apps" EntityType="DeliversModel.App" />
+    <EntitySet Name="Tokens" EntityType="DeliversModel.Token" />
+    <AssociationSet Name="FK_Token_App" Association="DeliversModel.FK_Token_App">
+      <End Role="App" EntitySet="Apps" />
+      <End Role="Token" EntitySet="Tokens" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Token_Token" Association="DeliversModel.FK_Token_Token">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="Token" EntitySet="Tokens" />
+    </AssociationSet>
+    <EntitySet Name="Notifications" EntityType="DeliversModel.Notification" />
+    <EntitySet Name="User_Rest_Map" EntityType="DeliversModel.User_Rest_Map" />
+    <EntitySet Name="Rider_Location_Map" EntityType="DeliversModel.Rider_Location_Map" />
+    <AssociationSet Name="FK_Rider_Location_Map_AspNetUsers" Association="DeliversModel.FK_Rider_Location_Map_AspNetUsers">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="Rider_Location_Map" EntitySet="Rider_Location_Map" />
+    </AssociationSet>
+    <EntitySet Name="OrderHistories" EntityType="DeliversModel.OrderHistory" />
+    <AssociationSet Name="FK_OrderHistory_Order" Association="DeliversModel.FK_OrderHistory_Order">
+      <End Role="Order" EntitySet="Orders" />
+      <End Role="OrderHistory" EntitySet="OrderHistories" />
+    </AssociationSet>
+    <EntitySet Name="ListCategories" EntityType="DeliversModel.ListCategory" />
+  </EntityContainer>
+  <EntityType Name="ItemDetail">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Price" Type="Int32" Nullable="false" />
+    <Property Name="ListItemId" Type="Int64" Nullable="false" />
+    <Property Name="CreationDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="EditDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Image" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Status" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="ListItem" Relationship="DeliversModel.FK_ItemDetail_ItemDetail" FromRole="ItemDetail" ToRole="ListItem" />
+    <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="OrderDetails" Relationship="DeliversModel.FK_OrderDetails_ItemDetail" FromRole="ItemDetail" ToRole="OrderDetail" />
+    <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="ListItem">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Type" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Location" Type="Geography" />
+    <Property Name="Phone" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Rating" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="LogoImage" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="BgImage" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Status" Type="Boolean" Nullable="false" />
+    <Property Name="CreationDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="LastEdit" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="ItemDetails" Relationship="DeliversModel.FK_ItemDetail_ItemDetail" FromRole="ListItem" ToRole="ItemDetail" />
+    <Property Name="Cords" Type="Geography" />
+    <NavigationProperty Name="Ratings" Relationship="DeliversModel.FK_Rating_ListItems" FromRole="ListItem" ToRole="Rating" />
+    <Property Name="Opens" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Closes" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="ListItems_Favt" Relationship="DeliversModel.FK_ListItems_Favt_ListItems" FromRole="ListItem" ToRole="ListItems_Favt" />
+    <Property Name="MinOrder" Type="Int32" />
+  </EntityType>
+  <Association Name="FK_ItemDetail_ItemDetail">
+    <End Type="DeliversModel.ListItem" Role="ListItem" Multiplicity="1" />
+    <End Type="DeliversModel.ItemDetail" Role="ItemDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ListItem">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ItemDetail">
+        <PropertyRef Name="ListItemId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="OrderDetail">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ItemId" Type="Int64" Nullable="false" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <Property Name="OrderId" Type="Int64" Nullable="false" />
+    <NavigationProperty Name="ItemDetail" Relationship="DeliversModel.FK_OrderDetails_ItemDetail" FromRole="OrderDetail" ToRole="ItemDetail" />
+    <NavigationProperty Name="Order" Relationship="DeliversModel.FK_OrderDetails_Order" FromRole="OrderDetail" ToRole="Order" />
+    <Property Name="RestId" Type="Int64" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_OrderDetails_ItemDetail">
+    <End Type="DeliversModel.ItemDetail" Role="ItemDetail" Multiplicity="1" />
+    <End Type="DeliversModel.OrderDetail" Role="OrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ItemDetail">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OrderDetail">
+        <PropertyRef Name="ItemId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="AspNetUser">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="FirstName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="LastName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+    <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+    <Property Name="CreationTime" Type="DateTime" Precision="3" />
+    <Property Name="EditTime" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="AspNetUserClaims" Relationship="DeliversModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserClaim" />
+    <NavigationProperty Name="AspNetUserLogins" Relationship="DeliversModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserLogin" />
+    <NavigationProperty Name="AspNetUsers1" Relationship="DeliversModel.FK_AspNetUsers_AspNetUsers" FromRole="AspNetUser" ToRole="AspNetUser1" />
+    <NavigationProperty Name="AspNetUser1" Relationship="DeliversModel.FK_AspNetUsers_AspNetUsers" FromRole="AspNetUser1" ToRole="AspNetUser" />
+    <NavigationProperty Name="AspNetRoles" Relationship="DeliversModel.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
+    <NavigationProperty Name="Ratings" Relationship="DeliversModel.FK_Rating_AspNetUsers" FromRole="AspNetUser" ToRole="Rating" />
+    <Property Name="Type" Type="Int32" />
+    <Property Name="IsApproved" Type="Boolean" />
+    <Property Name="CNIC" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Orders" Relationship="DeliversModel.FK_Order_AspNetUsers" FromRole="AspNetUser" ToRole="Order" />
+    <Property Name="Status" Type="Boolean" />
+    <NavigationProperty Name="ListItems_Favt" Relationship="DeliversModel.FK_ListItems_Favt_AspNetUsers" FromRole="AspNetUser" ToRole="ListItems_Favt" />
+    <NavigationProperty Name="Tokens" Relationship="DeliversModel.FK_Token_Token" FromRole="AspNetUser" ToRole="Token" />
+    <NavigationProperty Name="Rider_Location_Map" Relationship="DeliversModel.FK_Rider_Location_Map_AspNetUsers" FromRole="AspNetUser" ToRole="Rider_Location_Map" />
+    <Property Name="Address" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Location" Type="Geography" />
+  </EntityType>
+  <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+    <End Type="DeliversModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="DeliversModel.AspNetUserClaim" Role="AspNetUserClaim" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserClaim">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+    <End Type="DeliversModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="DeliversModel.AspNetUserLogin" Role="AspNetUserLogin" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserLogin">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AspNetUsers_AspNetUsers">
+    <End Type="DeliversModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+    <End Type="DeliversModel.AspNetUser" Role="AspNetUser1" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUser1">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AspNetUserRoles">
+    <End Type="DeliversModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
+    <End Type="DeliversModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
+  </Association>
+  <EntityType Name="Rating">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RatingStar" Type="Double" Nullable="false" />
+    <Property Name="Comments" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="RatedToItem" Type="Int64" Nullable="false" />
+    <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="IsApproved" Type="Boolean" Nullable="false" />
+    <Property Name="RatedByUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUser" Relationship="DeliversModel.FK_Rating_AspNetUsers" FromRole="Rating" ToRole="AspNetUser" />
+    <NavigationProperty Name="ListItem" Relationship="DeliversModel.FK_Rating_ListItems" FromRole="Rating" ToRole="ListItem" />
+  </EntityType>
+  <Association Name="FK_Rating_AspNetUsers">
+    <End Type="DeliversModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+    <End Type="DeliversModel.Rating" Role="Rating" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Rating">
+        <PropertyRef Name="RatedByUserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Rating_ListItems">
+    <End Type="DeliversModel.ListItem" Role="ListItem" Multiplicity="1" />
+    <End Type="DeliversModel.Rating" Role="Rating" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ListItem">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Rating">
+        <PropertyRef Name="RatedToItem" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Status" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="OrderBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="Amount" Type="Int32" Nullable="false" />
+    <Property Name="EstimatedTime" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="Instructions" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Cords" Type="Geography" />
+    <NavigationProperty Name="AspNetUser" Relationship="DeliversModel.FK_Order_AspNetUsers" FromRole="Order" ToRole="AspNetUser" />
+    <NavigationProperty Name="OrderDetails" Relationship="DeliversModel.FK_OrderDetails_Order" FromRole="Order" ToRole="OrderDetail" />
+    <Property Name="SerialNo" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="OrderHistories" Relationship="DeliversModel.FK_OrderHistory_Order" FromRole="Order" ToRole="OrderHistory" />
+    <Property Name="PickedBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="UpdatedAt" Type="DateTime" Precision="3" />
+  </EntityType>
+  <Association Name="FK_Order_AspNetUsers">
+    <End Type="DeliversModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+    <End Type="DeliversModel.Order" Role="Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="OrderBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderDetails_Order">
+    <End Type="DeliversModel.Order" Role="Order" Multiplicity="1" />
+    <End Type="DeliversModel.OrderDetail" Role="OrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OrderDetail">
+        <PropertyRef Name="OrderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="ListItems_Favt">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ItemId" Type="Int64" Nullable="false" />
+    <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="AspNetUser" Relationship="DeliversModel.FK_ListItems_Favt_AspNetUsers" FromRole="ListItems_Favt" ToRole="AspNetUser" />
+    <NavigationProperty Name="ListItem" Relationship="DeliversModel.FK_ListItems_Favt_ListItems" FromRole="ListItems_Favt" ToRole="ListItem" />
+  </EntityType>
+  <Association Name="FK_ListItems_Favt_AspNetUsers">
+    <End Type="DeliversModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+    <End Type="DeliversModel.ListItems_Favt" Role="ListItems_Favt" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ListItems_Favt">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ListItems_Favt_ListItems">
+    <End Type="DeliversModel.ListItem" Role="ListItem" Multiplicity="1" />
+    <End Type="DeliversModel.ListItems_Favt" Role="ListItems_Favt" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ListItem">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ListItems_Favt">
+        <PropertyRef Name="ItemId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="App">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="IsActive" Type="Boolean" Nullable="false" />
+    <Property Name="Type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Tokens" Relationship="DeliversModel.FK_Token_App" FromRole="App" ToRole="Token" />
+  </EntityType>
+  <EntityType Name="Token">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AppId" Type="Int64" Nullable="false" />
+    <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="Token1" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="App" Relationship="DeliversModel.FK_Token_App" FromRole="Token" ToRole="App" />
+    <NavigationProperty Name="AspNetUser" Relationship="DeliversModel.FK_Token_Token" FromRole="Token" ToRole="AspNetUser" />
+  </EntityType>
+  <Association Name="FK_Token_App">
+    <End Type="DeliversModel.App" Role="App" Multiplicity="1" />
+    <End Type="DeliversModel.Token" Role="Token" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="App">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Token">
+        <PropertyRef Name="AppId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Token_Token">
+    <End Type="DeliversModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+    <End Type="DeliversModel.Token" Role="Token" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Token">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Notification">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="AppId" Type="Int64" Nullable="false" />
+    <Property Name="Text" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
+  </EntityType>
+  <EntityType Name="User_Rest_Map">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="RestId" Type="Int64" Nullable="false" />
+    <Property Name="Status" Type="Boolean" Nullable="false" />
+    <Property Name="CreationDate" Type="DateTime" Nullable="false" Precision="3" />
+  </EntityType>
+  <EntityType Name="Rider_Location_Map">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="Location" Type="Geography" />
+    <Property Name="LastUpdated" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="AspNetUser" Relationship="DeliversModel.FK_Rider_Location_Map_AspNetUsers" FromRole="Rider_Location_Map" ToRole="AspNetUser" />
+  </EntityType>
+  <Association Name="FK_Rider_Location_Map_AspNetUsers">
+    <End Type="DeliversModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+    <End Type="DeliversModel.Rider_Location_Map" Role="Rider_Location_Map" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Rider_Location_Map">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="OrderHistory">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OrderId" Type="Int64" Nullable="false" />
+    <Property Name="Status" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="IsCurrent" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Order" Relationship="DeliversModel.FK_OrderHistory_Order" FromRole="OrderHistory" ToRole="Order" />
+  </EntityType>
+  <Association Name="FK_OrderHistory_Order">
+    <End Type="DeliversModel.Order" Role="Order" Multiplicity="1" />
+    <End Type="DeliversModel.OrderHistory" Role="OrderHistory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OrderHistory">
+        <PropertyRef Name="OrderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="ListCategory">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Status" Type="Boolean" Nullable="false" />
+    <Property Name="CreationTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="CatId" Type="Int32" Nullable="false" />
+  </EntityType>
+</Schema>

@@ -1,0 +1,13 @@
+D:\Work\Projects\Delives.pk\Services\bin\Debug\Services.dll.config
+D:\Work\Projects\Delives.pk\Services\bin\Debug\Services.dll
+D:\Work\Projects\Delives.pk\Services\bin\Debug\Services.pdb
+D:\Work\Projects\Delives.pk\Services\bin\Debug\EntityFramework.dll
+D:\Work\Projects\Delives.pk\Services\bin\Debug\EntityFramework.SqlServer.dll
+D:\Work\Projects\Delives.pk\Services\bin\Debug\Newtonsoft.Json.dll
+D:\Work\Projects\Delives.pk\Services\bin\Debug\EntityFramework.xml
+D:\Work\Projects\Delives.pk\Services\bin\Debug\EntityFramework.SqlServer.xml
+D:\Work\Projects\Delives.pk\Services\bin\Debug\Newtonsoft.Json.pdb
+D:\Work\Projects\Delives.pk\Services\bin\Debug\Newtonsoft.Json.xml
+D:\Work\Projects\Delives.pk\Services\obj\Debug\Services.dll
+D:\Work\Projects\Delives.pk\Services\obj\Debug\Services.pdb
+D:\Work\Projects\Delives.pk\Services\obj\Debug\Services.csprojResolveAssemblyReference.cache
