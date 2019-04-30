@@ -11,3 +11,15 @@ D:\Work\Projects\Delives.pk\Services\bin\Debug\Newtonsoft.Json.xml
 D:\Work\Projects\Delives.pk\Services\obj\Debug\Services.dll
 D:\Work\Projects\Delives.pk\Services\obj\Debug\Services.pdb
 D:\Work\Projects\Delives.pk\Services\obj\Debug\Services.csprojResolveAssemblyReference.cache
+C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Services\bin\Debug\Services.dll.config
+C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Services\bin\Debug\Services.dll
+C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Services\bin\Debug\Services.pdb
+C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Services\bin\Debug\EntityFramework.dll
+C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Services\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Services\bin\Debug\Newtonsoft.Json.dll
+C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Services\bin\Debug\EntityFramework.xml
+C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Services\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Services\bin\Debug\Newtonsoft.Json.pdb
+C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Services\bin\Debug\Newtonsoft.Json.xml
+C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Services\obj\Debug\Services.dll
+C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Services\obj\Debug\Services.pdb

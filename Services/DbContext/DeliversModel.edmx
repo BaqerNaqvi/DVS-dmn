@@ -158,6 +158,7 @@
           <Property Name="SerialNo" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="PickedBy" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="UpdatedAt" Type="datetime" />
+          <Property Name="DeliveryCost" Type="int" />
         </EntityType>
         <EntityType Name="OrderDetails">
           <Key>
@@ -852,6 +853,7 @@
           <NavigationProperty Name="OrderHistories" Relationship="DeliversModel.FK_OrderHistory_Order" FromRole="Order" ToRole="OrderHistory" />
           <Property Name="PickedBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="UpdatedAt" Type="DateTime" Precision="3" />
+          <Property Name="DeliveryCost" Type="Int32" />
         </EntityType>
         <Association Name="FK_Order_AspNetUsers">
           <End Type="DeliversModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
@@ -1169,6 +1171,7 @@
           <EntitySetMapping Name="Orders">
             <EntityTypeMapping TypeName="DeliversModel.Order">
               <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="DeliveryCost" ColumnName="DeliveryCost" />
                 <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
                 <ScalarProperty Name="PickedBy" ColumnName="PickedBy" />
                 <ScalarProperty Name="SerialNo" ColumnName="SerialNo" />

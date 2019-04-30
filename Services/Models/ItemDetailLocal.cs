@@ -37,6 +37,8 @@ namespace Services.Models
         public int Price { get; set; }
     
         public string Image { get; set; }
+        public string Description { get; set; }
+
 
 
     }
@@ -72,6 +74,7 @@ namespace Services.Models
                 Name = source.Name,
                 Image = source.Image,
                 Price = source.Price,
+                Description= source.Description
             };
         }
     }
