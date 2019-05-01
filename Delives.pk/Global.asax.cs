@@ -20,6 +20,7 @@ namespace Delives.pk
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             GlobalConfiguration.Configuration.MessageHandlers.Add(new AuthHandler());
+            SqlServerTypes.Utilities.LoadNativeAssemblies(Server.MapPath("~/bin"));
         }
     }
 }

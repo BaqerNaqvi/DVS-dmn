@@ -7,6 +7,7 @@ using Services.DbContext;
 using Services.Services;
 using System.Data.Entity.Spatial;
 using System.ComponentModel.DataAnnotations;
+using System.Web;
 
 namespace Services.Models
 {
@@ -49,6 +50,9 @@ namespace Services.Models
 
         // FOR CREATING RESTARANT IN ADMIN
         public List<ListCategoryLocal> Categoreis { get; set; }
+
+        public HttpPostedFileBase Logo { get; set; }
+        public HttpPostedFileBase Background { get; set; }
 
     }
 
