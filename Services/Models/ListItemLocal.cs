@@ -92,7 +92,7 @@ namespace Services.Models
             return new ListItemLocal
             {
                 Address = source.Address,
-                BgImage = "http://www.delivers.pk/Images/Rest/Large/large_01.jpg", //source.BgImage,
+                BgImage = "http://www.neshqiperi.al/data/neshqiperi.al/media/thumbs/businesses/69/200x100/1468832567_o-HEALTHY-FAST-FOOD-facebook.jpg?zc=1",//  "http://www.delivers.pk/Images/Rest/Large/large_01.jpg", //source.BgImage,
                 CreationDate = source.CreationDate.ToShortDateString() +" "+source.CreationDate.ToShortTimeString(),
                 LastEdit = source.LastEdit,
                 Description = source.Description,
