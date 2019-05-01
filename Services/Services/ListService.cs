@@ -11,7 +11,7 @@ namespace Services.Services
 {
     public static class ListService
     {
-        public static bool Create(ListItemLocal source)
+        public static long Create(ListItemLocal source)
         {
             DbGeography loc = null;
             List<string> latlng = new List<string>();
@@ -25,29 +25,41 @@ namespace Services.Services
             }
             var obj = new ListItem
             {
-                Address= source.Address,
-                BgImage= "http://via.placeholder.com/200x100",
-                Closes= source.Closes,
-                Cords= loc,
-                CreationDate= DateTime.Now,
-                Description= source.Description,
-                LastEdit= DateTime.Now,
-                Location= loc,
-                Name= source.Name,
-                Phone= source.Phone,
-                Opens= source.Opens,
-                Status= false,
-                Type= source.Type,
-                Rating="0.00",
-                LogoImage= "http://via.placeholder.com/200x100"
-                
+                Address = source.Address,
+                BgImage = "http://via.placeholder.com/200x100",
+                Closes = source.Closes,
+                Cords = loc,
+                CreationDate = DateTime.Now,
+                Description = source.Description,
+                LastEdit = DateTime.Now,
+                Location = loc,
+                Name = source.Name,
+                Phone = source.Phone,
+                Opens = source.Opens,
+                Status = false,
+                Type = source.Type,
+                Rating = "0.00",
+                LogoImage = "http://via.placeholder.com/200x100"
+
             };
             using (var dbContext = new DeliversEntities())
             {
                 dbContext.ListItems.Add(obj);
                 dbContext.SaveChanges();
             }
-                return true;
+            return obj.Id;
+        }
+        public static bool UpdateImages(ListItemLocal source)
+        {
+            using (var dbContext = new DeliversEntities())
+            {
+                var item = dbContext.ListItems.First(x => x.Id == source.Id);
+                item.BgImage = source.BgImage;
+                item.LogoImage = source.LogoImage;
+                item.LastEdit = DateTime.Now;
+                dbContext.SaveChanges();
+            }
+            return true;
         }
 
 

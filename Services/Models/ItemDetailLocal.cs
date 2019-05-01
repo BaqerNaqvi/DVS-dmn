@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using Services.DbContext;
 using Services.Services;
 
@@ -14,7 +15,7 @@ namespace Services.Models
         public string Name { get; set; }
         public int Price { get; set; }
         public long ListItemId { get; set; }
-        public string CreationDate { get; set; }
+        public System.DateTime CreationDate { get; set; }
         public System.DateTime EditDate { get; set; }
         public string Image { get; set; }
         public bool Status { get; set; }
@@ -26,6 +27,7 @@ namespace Services.Models
         public virtual List<RatingLocal> Reviewes { get; set; }
         public string Type { get; set; }
 
+        public HttpPostedFileBase ImageFile { get; set; }
 
     }
 
@@ -52,17 +54,36 @@ namespace Services.Models
             {
                 Id = source.Id,
                 Status = source.Status,
-                CreationDate = source.CreationDate.ToShortDateString() + " " + source.CreationDate.ToShortTimeString(),
+                CreationDate = source.CreationDate,
                 Name = source.Name,
                 EditDate = source.EditDate,
                 Image = source.Image,
-               ListItem = source.ListItem.MapListItem_ShortM(),
+                ListItem = source.ListItem.MapListItem_ShortM(),
                 ListItemId = source.ListItemId,
                 Price = source.Price,
                 Description = source.Description,
-                Type= source.Type
-              //  Reviewes = ReviewService.GetReviewsByItemId(source.Id, 2) // 1 for lists items , 2 for detail items 
-                
+                Type = source.Type
+                //  Reviewes = ReviewService.GetReviewsByItemId(source.Id, 2) // 1 for lists items , 2 for detail items 
+
+            };
+        }
+        public static ItemDetail ItemDetailMapper(this ItemDetailLocal source)
+        {
+            var rr = source.ListItem;
+            return new ItemDetail
+            {
+                Id = source.Id,
+                Status = source.Status,
+                CreationDate = source.CreationDate,
+                Name = source.Name,
+                EditDate = source.EditDate,
+                Image = source.Image,
+                ListItemId = source.ListItemId,
+                Price = source.Price,
+                Description = source.Description,
+                Type = source.Type
+                //  Reviewes = ReviewService.GetReviewsByItemId(source.Id, 2) // 1 for lists items , 2 for detail items 
+
             };
         }
 
