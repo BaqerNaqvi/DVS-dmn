@@ -153,6 +153,7 @@
     <Property Name="SerialNo" Type="nvarchar" MaxLength="150" Nullable="false" />
     <Property Name="PickedBy" Type="nvarchar" MaxLength="128" Nullable="false" />
     <Property Name="UpdatedAt" Type="datetime" />
+    <Property Name="DeliveryCost" Type="int" />
   </EntityType>
   <EntityType Name="OrderDetails">
     <Key>

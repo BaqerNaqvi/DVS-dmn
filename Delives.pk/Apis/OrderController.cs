@@ -42,12 +42,18 @@ namespace Delives.pk.Apis
             {
                 try
                 {
-                    var contextnew = new ApplicationDbContext();
-                    var userStore = new UserStore<ApplicationUser>(contextnew);
-                    var userManager = new UserManager<ApplicationUser>(userStore);
-                    var user= userManager.FindByName(User.Identity.Name);
+                    var orderById = listModel.OrderPlacedById;
+                    if (string.IsNullOrEmpty(listModel.OrderPlacedById))
+                    {
+                        var contextnew = new ApplicationDbContext();
+                        var userStore = new UserStore<ApplicationUser>(contextnew);
+                        var userManager = new UserManager<ApplicationUser>(userStore);
+                        var user = userManager.FindByName(User.Identity.Name);
+                        orderById = user.Id;
+                    }
+                   
 
-                    var item = OrderService.Place(listModel, user.Id);
+                    var item = OrderService.Place(listModel, orderById);
                     response.Data = item.EstimatedTime;
                     response.OrderId = item.OrderIds;
                     response.SerialNo = item.SerailNo;

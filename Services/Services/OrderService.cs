@@ -182,7 +182,7 @@ namespace Services.Services
                 }
                 return new GetOrderBySerialNoResponse {
                     Orders= orders,
-                    DeliveryFee= 70,
+                    DeliveryFee= 80,
                     DeliveryTime= 50 
 
                 };

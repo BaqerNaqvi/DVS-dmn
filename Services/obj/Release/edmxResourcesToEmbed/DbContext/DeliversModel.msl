@@ -130,6 +130,7 @@
     <EntitySetMapping Name="Orders">
       <EntityTypeMapping TypeName="DeliversModel.Order">
         <MappingFragment StoreEntitySet="Order">
+          <ScalarProperty Name="DeliveryCost" ColumnName="DeliveryCost" />
           <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
           <ScalarProperty Name="PickedBy" ColumnName="PickedBy" />
           <ScalarProperty Name="SerialNo" ColumnName="SerialNo" />
