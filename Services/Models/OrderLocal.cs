@@ -25,6 +25,7 @@ namespace Services.Models
 
         public string SerialNo { get; set; }
         public string PickedBy { get; set; }
+        public int? DeliveryCost { get; set; }
     }
 
     public class OrderLocal_waitingForPickup
@@ -42,6 +43,8 @@ namespace Services.Models
         public string OrderByName { get; set; }
 
         public List<OrderHistoryLocal> History { get; set; }
+        public int? DeliveryCost { get; set; }
+
 
 
     }
@@ -65,7 +68,8 @@ namespace Services.Models
                 OrderDetails = source.OrderDetails.Select( det => det.MapODetailLocal()).ToList(),
                 SerialNo = source.SerialNo,
                 PickedBy=  source.PickedBy,
-                History= source.OrderHistories.Select(his => his.MapOrderHistory()).ToList()
+                History= source.OrderHistories.Select(his => his.MapOrderHistory()).ToList(),
+                DeliveryCost= source.DeliveryCost
             };
         }
 
@@ -80,7 +84,8 @@ namespace Services.Models
                 Instructions = source.Instructions,
                 OrderByName = source.AspNetUser.FirstName + " " + source.AspNetUser.LastName,
                 PickupAddresses = new []{source.OrderDetails.FirstOrDefault().ItemDetail.ListItem.Address},
-                History = source.OrderHistories.Select(his => his.MapOrderHistory()).ToList()
+                History = source.OrderHistories.Select(his => his.MapOrderHistory()).ToList(),
+                DeliveryCost = source.DeliveryCost
 
             };
         }

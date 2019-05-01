@@ -328,6 +328,7 @@
     <NavigationProperty Name="OrderHistories" Relationship="DeliversModel.FK_OrderHistory_Order" FromRole="Order" ToRole="OrderHistory" />
     <Property Name="PickedBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
     <Property Name="UpdatedAt" Type="DateTime" Precision="3" />
+    <Property Name="DeliveryCost" Type="Int32" />
   </EntityType>
   <Association Name="FK_Order_AspNetUsers">
     <End Type="DeliversModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />

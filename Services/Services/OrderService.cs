@@ -63,7 +63,8 @@ namespace Services.Services
                         EstimatedTime = estimatedTime,
                         SerialNo = serial,
                         PickedBy= Guid.Empty.ToString(),
-                        UpdatedAt= DateTime.Now
+                        UpdatedAt= DateTime.Now,
+                        DeliveryCost=80
                     };
                     dbContext.Orders.Add(order);
 
