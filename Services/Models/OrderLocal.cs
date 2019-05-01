@@ -69,7 +69,7 @@ namespace Services.Models
                 SerialNo = source.SerialNo,
                 PickedBy=  source.PickedBy,
                 History= source.OrderHistories.Select(his => his.MapOrderHistory()).ToList(),
-                DeliveryCost= source.DeliveryCost
+               DeliveryCost= source.DeliveryCost
             };
         }
 

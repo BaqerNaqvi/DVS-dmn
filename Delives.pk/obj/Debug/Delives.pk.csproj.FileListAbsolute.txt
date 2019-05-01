@@ -184,11 +184,11 @@ C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Delives.pk\bin\Mic
 C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Delives.pk\obj\Debug\Delives.pk.csprojResolveAssemblyReference.cache
 C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Delives.pk\obj\Debug\Delives.pk.dll
 C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Delives.pk\obj\Debug\Delives.pk.pdb
-D:\moosa\personal\freelancing\withbaqer\DVS-dmn\Delives.pk\bin\ApplicationInsights.config
 D:\moosa\personal\freelancing\withbaqer\DVS-dmn\Delives.pk\bin\SqlServerTypes\x64\msvcr120.dll
 D:\moosa\personal\freelancing\withbaqer\DVS-dmn\Delives.pk\bin\SqlServerTypes\x64\SqlServerSpatial140.dll
 D:\moosa\personal\freelancing\withbaqer\DVS-dmn\Delives.pk\bin\SqlServerTypes\x86\msvcr120.dll
 D:\moosa\personal\freelancing\withbaqer\DVS-dmn\Delives.pk\bin\SqlServerTypes\x86\SqlServerSpatial140.dll
+D:\moosa\personal\freelancing\withbaqer\DVS-dmn\Delives.pk\bin\ApplicationInsights.config
 D:\moosa\personal\freelancing\withbaqer\DVS-dmn\Delives.pk\bin\roslyn\csc.exe
 D:\moosa\personal\freelancing\withbaqer\DVS-dmn\Delives.pk\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
 D:\moosa\personal\freelancing\withbaqer\DVS-dmn\Delives.pk\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
