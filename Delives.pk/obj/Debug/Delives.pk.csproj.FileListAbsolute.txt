@@ -184,3 +184,8 @@ C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Delives.pk\bin\Mic
 C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Delives.pk\obj\Debug\Delives.pk.csprojResolveAssemblyReference.cache
 C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Delives.pk\obj\Debug\Delives.pk.dll
 C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Delives.pk\obj\Debug\Delives.pk.pdb
+C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Delives.pk\bin\SqlServerTypes\x64\msvcr120.dll
+C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Delives.pk\bin\SqlServerTypes\x64\SqlServerSpatial140.dll
+C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Delives.pk\bin\SqlServerTypes\x86\msvcr120.dll
+C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Delives.pk\bin\SqlServerTypes\x86\SqlServerSpatial140.dll
+C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Delives.pk\bin\Microsoft.SqlServer.Types.dll

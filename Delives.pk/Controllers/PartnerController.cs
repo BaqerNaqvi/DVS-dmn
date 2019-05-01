@@ -11,20 +11,26 @@ using System.Web.Mvc;
 
 namespace Delives.pk.Controllers
 {
-    [Authorize]
     public class PartnerController : Controller
     {
        
         [HttpPost]
         public ActionResult PartnerCreate(ListItemLocal model) 
         {
-            model.Id = ListService.Create(model);
-            var relativePath = ConfigurationManager.AppSettings["saveImagesIn"];
-            if (model.LogoImage != null)
-                model.LogoImage = Functions.SaveFile(model.Logo, relativePath, Server.MapPath(relativePath), model.Id + "_Logo");
-            if (model.BgImage != null)
-                model.BgImage = Functions.SaveFile(model.Logo, relativePath, Server.MapPath(relativePath), model.Id + "_Background");
-            ListService.UpdateImages(model);
+            try
+            {
+                model.Id = ListService.Create(model);
+                var relativePath = ConfigurationManager.AppSettings["saveImagesIn"];
+                if (model.LogoImage != null)
+                    model.LogoImage = Functions.SaveFile(model.Logo, relativePath, Server.MapPath(relativePath), model.Id + "_Logo");
+                if (model.BgImage != null)
+                    model.BgImage = Functions.SaveFile(model.Logo, relativePath, Server.MapPath(relativePath), model.Id + "_Background");
+                ListService.UpdateImages(model);
+            }
+            catch (Exception dsd)
+            {
+
+            }
             return View(model);
         }
 
