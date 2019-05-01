@@ -29,17 +29,18 @@ namespace Services.Services
                 BgImage = "http://via.placeholder.com/200x100",
                 Closes = source.Closes,
                 Cords = loc,
-                CreationDate = DateTime.Now,
+                CreationDate = DateTime.Now, 
                 Description = source.Description,
                 LastEdit = DateTime.Now,
                 Location = loc,
                 Name = source.Name,
                 Phone = source.Phone,
                 Opens = source.Opens,
-                Status = false,
+                Status = true,
                 Type = source.Type,
                 Rating = "0.00",
-                LogoImage = "http://via.placeholder.com/200x100"
+                LogoImage = "http://via.placeholder.com/200x100",
+                MinOrder= source.MinOrder
 
             };
             using (var dbContext = new DeliversEntities())
