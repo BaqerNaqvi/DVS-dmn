@@ -598,5 +598,18 @@ namespace Services.Services
 
         #endregion
 
+        #region ADMIN
+
+        public static List<OrderLocal> GetAllOrders_Admin()
+        {
+            using (var dbContext = new DeliversEntities())
+            {
+                var orders = dbContext.Orders.ToList().Select(o=> o.MappOrder()).ToList();
+                return orders;
+            }
+        }
+
+        #endregion
+
     }
 }
