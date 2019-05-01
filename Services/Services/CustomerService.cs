@@ -22,7 +22,7 @@ namespace Services.Services
                     var orders = dbContext.Orders.Where(o => o.OrderBy == userid).ToList();
                     if (orders.Any())
                     {
-                       var mappedOrders =   orders.Select(od => od.MappOrder()).ToList();
+                       var mappedOrders =   orders.OrderByDescending(o => o.Id).ToList().Select(od => od.MappOrder()).ToList();
                        response.Orders = mappedOrders;
                     }
                 }

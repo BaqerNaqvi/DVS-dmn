@@ -11,6 +11,7 @@ using System.Web.Mvc;
 
 namespace Delives.pk.Controllers
 {
+    [Authorize]
     public class PartnerController : Controller
     {
        
