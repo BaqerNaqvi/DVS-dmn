@@ -36,11 +36,11 @@ namespace Services.Services
                 Name = source.Name,
                 Phone = source.Phone,
                 Opens = source.Opens,
-                Status = true,
+                Status = source.Status,
                 Type = source.Type,
                 Rating = "0.00",
-                LogoImage = "http://via.placeholder.com/200x100",
-                MinOrder= source.MinOrder
+                MinOrder = source.MinOrder,
+                LogoImage = "http://via.placeholder.com/200x100"
 
             };
             using (var dbContext = new DeliversEntities())
@@ -49,6 +49,41 @@ namespace Services.Services
                 dbContext.SaveChanges();
             }
             return obj.Id;
+        }
+        public static long Edit(ListItemLocal source)
+        {
+            DbGeography loc = null;
+            List<string> latlng = new List<string>();
+            if (!string.IsNullOrEmpty(source.Cords) && source.Cords != "")
+            {
+                latlng = source.Cords.Split('_').ToList();
+                if (latlng.Count == 2)
+                {
+                    loc = CommonService.ConvertLatLonToDbGeography(latlng[1], latlng[0]); // lat _ lng
+                }
+            }
+            using (var dbContext = new DeliversEntities())
+            {
+                var obj = dbContext.ListItems.FirstOrDefault(x => x.Id == source.Id);
+                obj.Address = source.Address;
+                obj.Closes = source.Closes;
+                obj.Cords = loc;
+                obj.Description = source.Description;
+                obj.LastEdit = DateTime.Now;
+                obj.Location = loc;
+                obj.Name = source.Name;
+                obj.Phone = source.Phone;
+                obj.Opens = source.Opens;
+                obj.Status = source.Status;
+                obj.Type = source.Type;
+                obj.MinOrder = source.MinOrder;
+                if (!string.IsNullOrWhiteSpace(source.BgImage))
+                    obj.BgImage = source.BgImage;
+                if (!string.IsNullOrWhiteSpace(source.LogoImage))
+                    obj.LogoImage = source.LogoImage;
+                dbContext.SaveChanges();
+            }
+            return source.Id;
         }
         public static bool UpdateImages(ListItemLocal source)
         {
@@ -62,7 +97,16 @@ namespace Services.Services
             }
             return true;
         }
-
+        public static async Task<ListItemLocal> DetailsAsync(long id)
+        {
+            ListItemLocal listItemLocal = null;
+            using (var dbContext = new DeliversEntities())
+            {
+                ListItem listItem = await dbContext.ListItems.FindAsync(id);
+                listItemLocal = listItem.MapListItem();
+            }
+            return listItemLocal;
+        }
 
         public static GetListResponseModel GetItemsForList(GetListRequestModel requestModel)
         {
@@ -96,7 +140,7 @@ namespace Services.Services
             using (var dbContext = new DeliversEntities())
             {
                 var allCats = GetCategories(true);
-                if(requestModel.IsWeb && (requestModel.TypeList == null || requestModel.TypeList.Count()==0))
+                if (requestModel.IsWeb && (requestModel.TypeList == null || requestModel.TypeList.Count() == 0))
                 {
                     requestModel.TypeList = new List<int>();
                     requestModel.TypeList = allCats.Select(c => (int)c.CatId).ToList();
@@ -111,36 +155,36 @@ namespace Services.Services
                     searchText = requestModel.SearchTerm.ToLower();
                 }
 
-                var list =dbContext.ListItems.Where(item => ( (requestModel.IsWeb && requestModel.TypeList.Any(o => o==item.Type)) || 
-                (item.Type == requestModel.Type && !requestModel.IsWeb ) )
-                
-                && 
-                (string.IsNullOrEmpty(searchText) || 
-                item.Name.ToLower().Contains(searchText) ||
-                item.Address.ToLower().Contains(searchText) ||
-                item.Description.ToLower().Contains(searchText) ||
-                (item.ItemDetails.Any(det => det.Name.ToLower().Contains(searchText)))
-                )).ToList();
+                var list = dbContext.ListItems.Where(item => ((requestModel.IsWeb && requestModel.TypeList.Any(o => o == item.Type)) ||
+                 (item.Type == requestModel.Type && !requestModel.IsWeb))
+
+                 &&
+                 (string.IsNullOrEmpty(searchText) ||
+                 item.Name.ToLower().Contains(searchText) ||
+                 item.Address.ToLower().Contains(searchText) ||
+                 item.Description.ToLower().Contains(searchText) ||
+                 (item.ItemDetails.Any(det => det.Name.ToLower().Contains(searchText)))
+                 )).ToList();
                 if (list.Any())
-                {                                                           
-                        var finals = list.Select(obj => obj.MapListItem()).ToList();
-                        foreach (var rest in finals)
+                {
+                    var finals = list.Select(obj => obj.MapListItem()).ToList();
+                    foreach (var rest in finals)
+                    {
+                        var restRate = (float)Convert.ToDouble(rest.Rating);
+                        var dist = CommonService.GetDistance((double)userLoc.Latitude, (double)userLoc.Longitude, Convert.ToDouble(rest.LocationObj.Latitude), Convert.ToDouble(rest.LocationObj.Longitude));
+                        if ((int)dist >= distanceFrom && (int)dist <= distanceTo && restRate >= rating)
                         {
-                            var restRate = (float)Convert.ToDouble(rest.Rating);
-                            var dist = CommonService.GetDistance((double)userLoc.Latitude, (double)userLoc.Longitude, Convert.ToDouble(rest.LocationObj.Latitude), Convert.ToDouble(rest.LocationObj.Longitude));
-                            if ((int)dist >=distanceFrom && (int)dist <= distanceTo && restRate >= rating)
-                            {
-                                var disst = Math.Round((double)dist, 2);
-                                rest.LocationObj = null;
-                                rest.Distance = disst;
-                                rest.Name = rest.Name ;
-                                rest.TypeName = allCats.FirstOrDefault(c => c.CatId == rest.Type).Name;
-                                newList.Add(rest);
-                            }
+                            var disst = Math.Round((double)dist, 2);
+                            rest.LocationObj = null;
+                            rest.Distance = disst;
+                            rest.Name = rest.Name;
+                            rest.TypeName = allCats.FirstOrDefault(c => c.CatId == rest.Type).Name;
+                            newList.Add(rest);
                         }
-                        newList = newList.OrderBy( obj => obj.Distance).ToList();
-                        var take = newList.Skip(requestModel.CurrentPage * requestModel.ItemsPerPage).
-                            Take(requestModel.ItemsPerPage).ToList();
+                    }
+                    newList = newList.OrderBy(obj => obj.Distance).ToList();
+                    var take = newList.Skip(requestModel.CurrentPage * requestModel.ItemsPerPage).
+                        Take(requestModel.ItemsPerPage).ToList();
                     response.Items = take;
                 }
                 requestModel.CurrentPage++;
@@ -155,7 +199,7 @@ namespace Services.Services
 
         public static List<ListItemLocal> GetItemsForList_AdminPanel()
         {
-            
+
             using (var dbContext = new DeliversEntities())
             {
                 return dbContext.ListItems.Where(L => L.Status).ToList().Select(o => o.MapListItem()).ToList();
@@ -169,7 +213,7 @@ namespace Services.Services
             using (var dbcontext = new DeliversEntities())
             {
                 var items = dbcontext.ItemDetails.Where(det => det.ListItemId == model.ItemId
-                && (string.IsNullOrEmpty(model.SearchTerm) || det.Name.ToLower().Contains(model.SearchTerm.ToLower()) 
+                && (string.IsNullOrEmpty(model.SearchTerm) || det.Name.ToLower().Contains(model.SearchTerm.ToLower())
                 || det.Description.ToLower().Contains(model.SearchTerm.ToLower()))
                 ).ToList();
                 if (items.Any())
@@ -188,18 +232,26 @@ namespace Services.Services
         {
             using (var dbcontext = new DeliversEntities())
             {
-                var items = dbcontext.ListCategories.Where(det => det.Status==staus).ToList().Select(p => p.Mapper()).ToList();
+                var items = dbcontext.ListCategories.Where(det => det.Status == staus).ToList().Select(p => p.Mapper()).ToList();
                 if (items.Any())
                 {
-                    foreach(var item in items)
+                    foreach (var item in items)
                     {
-                       item.ItemCount= dbcontext.ListItems.Count(o => o.Type == item.CatId);
+                        item.ItemCount = dbcontext.ListItems.Count(o => o.Type == item.CatId);
                     }
                 }
                 return items;
             }
         }
 
+        public static ListCategoryLocal GetRestaurantType(long id)
+        {
+            using (var dbcontext = new DeliversEntities())
+            {
+                var item = dbcontext.ListCategories.Where(det => det.Status == true && det.CatId == id).ToList().Select(p => p.Mapper()).FirstOrDefault();
+                return item;
+            }
+        }
         public static void AddNewRestaurent(ListItemLocal source)
         {
             using (var dbContext = new DeliversEntities())
@@ -225,10 +277,10 @@ namespace Services.Services
                     Address = source.Address,
                     Rating = source.Rating,
                     Type = source.Type,
-                    Id= source.Id,
+                    Id = source.Id,
                     Status = source.Status,
                     Cords = loc,
-                    CreationDate = DateTime.Now                   
+                    CreationDate = DateTime.Now
                 };
                 dbContext.ListItems.Add(dbObj);
                 dbContext.SaveChanges();
@@ -239,13 +291,13 @@ namespace Services.Services
         {
             using (var dbContext = new DeliversEntities())
             {
-                var rest = dbContext.ListItems.FirstOrDefault(i => i.Id.ToString()==source.ItemId);
+                var rest = dbContext.ListItems.FirstOrDefault(i => i.Id.ToString() == source.ItemId);
                 if (rest != null)
                 {
                     var isfavtExist = dbContext.ListItems_Favt.FirstOrDefault(i => i.ItemId.ToString() == source.ItemId
                                       && i.UserId == source.UserId);
 
-                    if ( source.IsFavourite)
+                    if (source.IsFavourite)
                     {
                         if (isfavtExist == null)
                         {
@@ -303,7 +355,7 @@ namespace Services.Services
                     searchText = requestModel.SearchTerm.ToLower();
                 }
 
-                var list = dbContext.ListItems_Favt.Where(item => 
+                var list = dbContext.ListItems_Favt.Where(item =>
                  (string.IsNullOrEmpty(searchText) ||
                  item.ListItem.Name.ToLower().Contains(searchText) ||
                  item.ListItem.Description.ToLower().Contains(searchText) ||
