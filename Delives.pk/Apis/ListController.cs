@@ -101,9 +101,9 @@ namespace Delives.pk.Apis
 
         [HttpPost]
         [Route("api/Listing/GetCatogries")]
-        public ResponseModel GetCatogries(GetCategoriesRequestModel model)
+        public ResponseModel_GetCatogries GetCatogries(GetCategoriesRequestModel model)
         {
-            var response = new ResponseModel
+            var response = new ResponseModel_GetCatogries
             {
                 Success = false,
                 Messages = new List<string>()
@@ -119,6 +119,10 @@ namespace Delives.pk.Apis
                 {
                     var menuItems = ListService.GetCategories(model.Status);
                     response.Data = menuItems;
+                    response.MessageContents="This is test message from server";
+                    response.ShowMessage = true;
+                    response.MessageTitle = "Server Handshake";
+
                     response.Messages.Add("Success");
                     response.Success = true;
                 }

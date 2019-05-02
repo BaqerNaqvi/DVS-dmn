@@ -80,5 +80,25 @@ namespace Services.Models
             else
                 return null;
         }
+
+        public static List<OrderHistoryEnu> GetAllOrderStatus()
+        {
+            return new List<OrderHistoryEnu>
+            {
+                new OrderHistoryEnu ("Placed",0),
+                new OrderHistoryEnu("CanceledByCustomer", 1),
+                new OrderHistoryEnu("CanceledByRestaurant", 1),
+
+                new OrderHistoryEnu("ConfirmedByCustomer", 1),
+                new OrderHistoryEnu("ConfirmedByRestaurant", 1),
+
+                new OrderHistoryEnu("ConfirmedByRider", 2),
+                new OrderHistoryEnu("WaitingForPickup",2),
+
+                new OrderHistoryEnu("CanceledByRider", 3),
+                new OrderHistoryEnu("PickedUp",3),
+                new OrderHistoryEnu("Delivered",4)
+            };
+        }
     }
 }

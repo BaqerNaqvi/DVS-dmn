@@ -19,7 +19,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/28/2017 22:20:43</publishTime>
     </File>
     <File Include="bin/Delives.pk.dll">
-      <publishTime>05/01/2019 20:29:34</publishTime>
+      <publishTime>05/02/2019 23:41:26</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>03/02/2015 09:32:26</publishTime>
@@ -87,6 +87,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="bin/Microsoft.Owin.Security.Twitter.dll">
       <publishTime>02/13/2015 13:16:42</publishTime>
     </File>
+    <File Include="bin/Microsoft.SqlServer.Types.dll">
+      <publishTime>05/02/2019 00:52:41</publishTime>
+    </File>
     <File Include="bin/Microsoft.Web.Infrastructure.dll">
       <publishTime>04/23/2012 15:23:58</publishTime>
     </File>
@@ -133,7 +136,19 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/18/2015 20:19:46</publishTime>
     </File>
     <File Include="bin/Services.dll">
-      <publishTime>05/01/2019 05:44:39</publishTime>
+      <publishTime>05/02/2019 23:41:22</publishTime>
+    </File>
+    <File Include="bin/SqlServerTypes/x64/msvcr120.dll">
+      <publishTime>05/02/2019 03:42:31</publishTime>
+    </File>
+    <File Include="bin/SqlServerTypes/x64/SqlServerSpatial140.dll">
+      <publishTime>05/02/2019 03:42:31</publishTime>
+    </File>
+    <File Include="bin/SqlServerTypes/x86/msvcr120.dll">
+      <publishTime>05/02/2019 03:42:31</publishTime>
+    </File>
+    <File Include="bin/SqlServerTypes/x86/SqlServerSpatial140.dll">
+      <publishTime>05/02/2019 03:42:31</publishTime>
     </File>
     <File Include="bin/System.Net.Http.Formatting.dll">
       <publishTime>01/28/2015 04:02:42</publishTime>
@@ -223,7 +238,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/08/2018 23:00:50</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>12/30/2018 16:29:13</publishTime>
+      <publishTime>05/02/2019 00:52:41</publishTime>
     </File>
     <File Include="Scripts/bootstrap.js">
       <publishTime>10/28/2017 22:20:12</publishTime>
@@ -264,6 +279,21 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Scripts/_references.js">
       <publishTime>10/28/2017 22:20:19</publishTime>
     </File>
+    <File Include="SqlServerTypes/readme.htm">
+      <publishTime>05/02/2019 00:52:41</publishTime>
+    </File>
+    <File Include="SqlServerTypes/x64/msvcr120.dll">
+      <publishTime>05/02/2019 00:52:41</publishTime>
+    </File>
+    <File Include="SqlServerTypes/x64/SqlServerSpatial140.dll">
+      <publishTime>05/02/2019 00:52:41</publishTime>
+    </File>
+    <File Include="SqlServerTypes/x86/msvcr120.dll">
+      <publishTime>05/02/2019 00:52:41</publishTime>
+    </File>
+    <File Include="SqlServerTypes/x86/SqlServerSpatial140.dll">
+      <publishTime>05/02/2019 00:52:41</publishTime>
+    </File>
     <File Include="Views/Account/ConfirmEmail.cshtml">
       <publishTime>10/28/2017 22:20:22</publishTime>
     </File>
@@ -300,6 +330,21 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Views/Account/_ExternalLoginsListPartial.cshtml">
       <publishTime>10/28/2017 22:20:22</publishTime>
     </File>
+    <File Include="Views/AdOrders/Create.cshtml">
+      <publishTime>05/02/2019 03:42:31</publishTime>
+    </File>
+    <File Include="Views/AdOrders/Delete.cshtml">
+      <publishTime>05/02/2019 03:42:31</publishTime>
+    </File>
+    <File Include="Views/AdOrders/Details.cshtml">
+      <publishTime>05/02/2019 05:12:18</publishTime>
+    </File>
+    <File Include="Views/AdOrders/Edit.cshtml">
+      <publishTime>05/02/2019 05:51:32</publishTime>
+    </File>
+    <File Include="Views/AdOrders/Index.cshtml">
+      <publishTime>05/02/2019 03:42:31</publishTime>
+    </File>
     <File Include="Views/Home/About.cshtml">
       <publishTime>10/28/2017 22:20:01</publishTime>
     </File>
@@ -327,11 +372,26 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Views/Manage/VerifyPhoneNumber.cshtml">
       <publishTime>10/28/2017 22:20:22</publishTime>
     </File>
+    <File Include="Views/MenuItems/Create.cshtml">
+      <publishTime>05/02/2019 00:52:41</publishTime>
+    </File>
+    <File Include="Views/MenuItems/Delete.cshtml">
+      <publishTime>05/02/2019 00:52:41</publishTime>
+    </File>
+    <File Include="Views/MenuItems/Details.cshtml">
+      <publishTime>05/02/2019 00:52:41</publishTime>
+    </File>
+    <File Include="Views/MenuItems/Edit.cshtml">
+      <publishTime>05/02/2019 00:52:41</publishTime>
+    </File>
+    <File Include="Views/MenuItems/Index.cshtml">
+      <publishTime>05/02/2019 00:52:41</publishTime>
+    </File>
     <File Include="Views/Partner/PartnerCreate.cshtml">
-      <publishTime>04/20/2019 02:44:19</publishTime>
+      <publishTime>05/02/2019 00:52:41</publishTime>
     </File>
     <File Include="Views/Partner/View.cshtml">
-      <publishTime>03/17/2019 03:06:14</publishTime>
+      <publishTime>05/02/2019 00:52:41</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>10/28/2017 22:20:21</publishTime>
@@ -355,7 +415,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/28/2017 22:20:01</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>05/01/2019 05:44:44</publishTime>
+      <publishTime>05/02/2019 23:41:27</publishTime>
     </File>
   </ItemGroup>
 </Project>

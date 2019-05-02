@@ -14,4 +14,10 @@ namespace Services.Models
 
         public List<OrderLocal> Orders { get; set; }
     }
+
+    public class UpdateOrderResponse
+    {
+       public bool Status { get; set; }
+        public string Error { get; set; }
+    }
 }

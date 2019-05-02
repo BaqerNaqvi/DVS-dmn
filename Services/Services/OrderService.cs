@@ -226,6 +226,69 @@ namespace Services.Services
             }
         }
 
+        public static UpdateOrderResponse EditOrder_Admin(Order source)
+        {
+            var response = new UpdateOrderResponse { };
+            using (var dbContext = new DeliversEntities())
+            {
+                var dbOrder = dbContext.Orders.FirstOrDefault(o => o.Id == source.Id);
+                if (dbOrder != null)
+                {
+                    #region STATUS
+                    if (dbOrder.Status != source.Status)
+                    {
+                        var dbOrderStatus = OrderService.GetOrderCurrentStatus(source.Id.ToString());
+                        var updatedOrderStatus = OrderHistoryEnu.GetOrderStatus(source.Status);
+
+                        if (updatedOrderStatus.Order - dbOrderStatus.Order > 1)
+                        {
+                            response.Status = false;
+                            response.Error = "Invalid order status";
+                            return response;
+                        }
+
+                        // UPDATE STATUS
+                        ChangeOrderStatus(new ChangeOrderStatusRequesrModel {
+                             OrderId= source.Id.ToString(),
+                            NewStatus= source.Status,
+                            UserId = null
+                        });
+                    }
+
+                    #endregion
+
+                    #region EDIT
+                    if (source.Address.ToLower() != dbOrder.Address.ToLower())
+                    {
+                        dbOrder.Address = source.Address;
+                    }
+                    if (source.Instructions.ToLower() != dbOrder.Instructions.ToLower())
+                    {
+                        dbOrder.Instructions = source.Instructions;
+                    }
+                    if (source.PickedBy.ToLower() != dbOrder.PickedBy.ToLower())
+                    {
+                        dbOrder.PickedBy = source.PickedBy;
+                    }
+                    if (source.DeliveryCost != dbOrder.DeliveryCost)
+                    {
+                        dbOrder.DeliveryCost = source.DeliveryCost;
+                    }
+                    response.Status = true;
+                    response.Error = "";
+                    return response;
+                    #endregion
+
+                }
+                else
+                {
+                    response.Status = false;
+                    response.Error = "Invalid order Id";
+                    return response;
+                }
+            }
+        }
+
    
         public static OrderHistoryEnu GetOrderCurrentStatus(string orderid)
         {
@@ -604,7 +667,7 @@ namespace Services.Services
         {
             using (var dbContext = new DeliversEntities())
             {
-                var orders = dbContext.Orders.ToList().Select(o=> o.MappOrder()).ToList();
+                var orders = dbContext.Orders.ToList().OrderByDescending(o=> o.Id).Select(o=> o.MappOrder()).ToList();
                 return orders;
             }
         }

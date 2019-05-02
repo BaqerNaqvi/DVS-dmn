@@ -14,6 +14,8 @@ namespace Services.Models
         public string ItemName { get; set; }
         public int Quantity { get; set; }
         public long OrderId { get; set; }
+        public long RestId { get; set; }
+
 
         public virtual ItemDetailLocal ItemDetail { get; set; }
         public virtual OrderLocal Order { get; set; }
@@ -31,7 +33,8 @@ namespace Services.Models
                 ItemId = source.ItemId,
                 ItemName= source.ItemDetail.Name,
                 OrderId = source.OrderId,
-                Quantity = source.Quantity
+                Quantity = source.Quantity,
+                RestId= source.RestId
             };
         }
     }
