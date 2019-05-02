@@ -345,6 +345,8 @@
     <Content Include="Views\AdOrders\Details.cshtml" />
     <Content Include="Views\AdOrders\Edit.cshtml" />
     <Content Include="Views\AdOrders\Index.cshtml" />
+    <Content Include="Views\Partner\Details.cshtml" />
+    <Content Include="Views\Partner\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
