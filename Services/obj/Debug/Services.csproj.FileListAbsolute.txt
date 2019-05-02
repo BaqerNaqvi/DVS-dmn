@@ -44,3 +44,6 @@ D:\moosa\personal\freelancing\withbaqer\DVS-dmn\Services\obj\Debug\Services.cspr
 D:\moosa\personal\freelancing\withbaqer\DVS-dmn\Services\obj\Debug\Services.csproj.CopyComplete
 D:\moosa\personal\freelancing\withbaqer\DVS-dmn\Services\obj\Debug\Services.dll
 D:\moosa\personal\freelancing\withbaqer\DVS-dmn\Services\obj\Debug\Services.pdb
+D:\moosa\personal\freelancing\withbaqer\DVS-dmn\Services\bin\Debug\Microsoft.AspNet.SignalR.Client.dll
+D:\moosa\personal\freelancing\withbaqer\DVS-dmn\Services\bin\Debug\Microsoft.AspNet.SignalR.Client.pdb
+D:\moosa\personal\freelancing\withbaqer\DVS-dmn\Services\bin\Debug\Microsoft.AspNet.SignalR.Client.xml

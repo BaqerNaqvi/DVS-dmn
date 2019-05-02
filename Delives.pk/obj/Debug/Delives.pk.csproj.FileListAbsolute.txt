@@ -285,3 +285,12 @@ D:\moosa\personal\freelancing\withbaqer\DVS-dmn\Delives.pk\obj\Debug\Delives.pk.
 D:\moosa\personal\freelancing\withbaqer\DVS-dmn\Delives.pk\obj\Debug\Delives.pk.csproj.CopyComplete
 D:\moosa\personal\freelancing\withbaqer\DVS-dmn\Delives.pk\obj\Debug\Delives.pk.dll
 D:\moosa\personal\freelancing\withbaqer\DVS-dmn\Delives.pk\obj\Debug\Delives.pk.pdb
+D:\moosa\personal\freelancing\withbaqer\DVS-dmn\Delives.pk\bin\Microsoft.AspNet.SignalR.Core.dll
+D:\moosa\personal\freelancing\withbaqer\DVS-dmn\Delives.pk\bin\Microsoft.AspNet.SignalR.SystemWeb.dll
+D:\moosa\personal\freelancing\withbaqer\DVS-dmn\Delives.pk\bin\Microsoft.AspNet.SignalR.Client.dll
+D:\moosa\personal\freelancing\withbaqer\DVS-dmn\Delives.pk\bin\Microsoft.AspNet.SignalR.Core.pdb
+D:\moosa\personal\freelancing\withbaqer\DVS-dmn\Delives.pk\bin\Microsoft.AspNet.SignalR.Core.xml
+D:\moosa\personal\freelancing\withbaqer\DVS-dmn\Delives.pk\bin\Microsoft.AspNet.SignalR.SystemWeb.pdb
+D:\moosa\personal\freelancing\withbaqer\DVS-dmn\Delives.pk\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
+D:\moosa\personal\freelancing\withbaqer\DVS-dmn\Delives.pk\bin\Microsoft.AspNet.SignalR.Client.pdb
+D:\moosa\personal\freelancing\withbaqer\DVS-dmn\Delives.pk\bin\Microsoft.AspNet.SignalR.Client.xml
