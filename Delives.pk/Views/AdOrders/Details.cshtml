@@ -1,0 +1,122 @@
+﻿@model Services.DbContext.Order
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>Order</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.DateTime)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.DateTime)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Status)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Status)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Address)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Address)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Amount)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Amount)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.EstimatedTime)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.EstimatedTime)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Instructions)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Instructions)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Cords)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Cords)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.SerialNo)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.SerialNo)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.PickedBy)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.PickedBy)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.UpdatedAt)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.UpdatedAt)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.DeliveryCost)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.DeliveryCost)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.AspNetUser.FirstName)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.AspNetUser.FirstName)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>

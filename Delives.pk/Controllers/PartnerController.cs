@@ -14,7 +14,6 @@ using System.Web.Mvc;
 
 namespace Delives.pk.Controllers
 {
-    [Authorize]
     public class PartnerController : Controller
     {
 
@@ -24,10 +23,10 @@ namespace Delives.pk.Controllers
         {
             model.Id = ListService.Create(model);
             var relativePath = ConfigurationManager.AppSettings["saveImagesIn"];
-            if (model.Logo != null)
+            if (model.LogoImage != null)
                 model.LogoImage = Functions.SaveFile(model.Logo, relativePath, Server.MapPath(relativePath), model.Id + "_Logo");
-            if (model.Background != null)
-                model.BgImage = Functions.SaveFile(model.Background, relativePath, Server.MapPath(relativePath), model.Id + "_Background");
+            if (model.BgImage != null)
+                model.BgImage = Functions.SaveFile(model.Logo, relativePath, Server.MapPath(relativePath), model.Id + "_Background");
             ListService.UpdateImages(model);
             return View(model);
         }

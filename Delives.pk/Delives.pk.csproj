@@ -229,6 +229,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdOrdersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MenuItemsController.cs" />
@@ -339,8 +340,11 @@
     <Content Include="Views\MenuItems\Details.cshtml" />
     <Content Include="Views\MenuItems\Edit.cshtml" />
     <Content Include="Views\MenuItems\Index.cshtml" />
-    <Content Include="Views\Partner\Edit.cshtml" />
-    <Content Include="Views\Partner\Details.cshtml" />
+    <Content Include="Views\AdOrders\Create.cshtml" />
+    <Content Include="Views\AdOrders\Delete.cshtml" />
+    <Content Include="Views\AdOrders\Details.cshtml" />
+    <Content Include="Views\AdOrders\Edit.cshtml" />
+    <Content Include="Views\AdOrders\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

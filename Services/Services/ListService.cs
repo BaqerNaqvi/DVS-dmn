@@ -29,7 +29,7 @@ namespace Services.Services
                 BgImage = "http://via.placeholder.com/200x100",
                 Closes = source.Closes,
                 Cords = loc,
-                CreationDate = DateTime.Now,
+                CreationDate = DateTime.Now, 
                 Description = source.Description,
                 LastEdit = DateTime.Now,
                 Location = loc,
