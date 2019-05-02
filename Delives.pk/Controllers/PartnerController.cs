@@ -1,4 +1,5 @@
 ﻿using Delives.pk.Utilities;
+using Services.DbContext;
 using Services.Models;
 using Services.Services;
 using System;
@@ -6,6 +7,8 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -14,9 +17,10 @@ namespace Delives.pk.Controllers
     [Authorize]
     public class PartnerController : Controller
     {
-       
+
+        private DeliversEntities db = new DeliversEntities();
         [HttpPost]
-        public ActionResult PartnerCreate(ListItemLocal model) 
+        public ActionResult PartnerCreate(ListItemLocal model)
         {
             model.Id = ListService.Create(model);
             var relativePath = ConfigurationManager.AppSettings["saveImagesIn"];
@@ -32,7 +36,7 @@ namespace Delives.pk.Controllers
         public ActionResult PartnerCreate()
         {
             var cats = ListService.GetCategories(true);
-            return View(new ListItemLocal { Categoreis= cats});
+            return View(new ListItemLocal { Categoreis = cats });
         }
 
 
@@ -42,26 +46,65 @@ namespace Delives.pk.Controllers
             var items = ListService.GetItemsForList_AdminPanel();
             return View(items);
         }
-        private string SaveFile(HttpPostedFileBase file, string path, string serverPath, string fileName = null, int type = 0)
+
+        // GET: MenuItems/Details/5
+        public async Task<ActionResult> Details(long? id)
         {
-            string _path = null;
-            string baseUrl = Request.Url.Scheme + "://" + Request.Url.Authority + Request.ApplicationPath.TrimEnd('/') + "/";
-            try
+            if (id == null)
             {
-                if (file.ContentLength > 0)
-                {
-                    //string _FileName = Path.GetFileName(file.FileName);
-                    _path = Path.Combine(Server.MapPath(path), fileName);
-                    file.SaveAs(_path);
-                }
-                ViewBag.Message = "File Uploaded Successfully!!";
-                return ConfigurationManager.AppSettings["saveImagesIn"] + path.TrimStart('~', '/') + "/" + fileName;
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            catch
+            ListItemLocal listItemLocal = await ListService.DetailsAsync(id.Value);
+            if (listItemLocal == null)
             {
-                ViewBag.Message = "File upload failed!!";
-                return ConfigurationManager.AppSettings["imagesBaseURL"] + path.TrimStart('~', '/') + "/default.png" ;
+                return HttpNotFound();
             }
+            var restType = ListService.GetRestaurantType(listItemLocal.Type);
+            if (restType != null)
+            {
+                listItemLocal.TypeName = restType.Name;
+            }
+            return View(listItemLocal);
+        }
+        // GET: MenuItems/Edit/5
+        public async Task<ActionResult> Edit(long? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ListItem item = await db.ListItems.FindAsync(id);
+            ListItemLocal itemDetail = item.MapListItem();
+            if (itemDetail == null)
+            {
+                return HttpNotFound();
+            }
+            var cats = ListService.GetCategories(true);
+            ViewBag.Type = new SelectList(cats, "CatId", "Name", itemDetail.Type);
+            return View(itemDetail);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(ListItemLocal itemDetail)
+        {
+            var relativePath = ConfigurationManager.AppSettings["saveImagesIn"];
+            if (itemDetail.Logo != null)
+                itemDetail.LogoImage = Functions.SaveFile(itemDetail.Logo, relativePath, Server.MapPath(relativePath), itemDetail.Id + "_Logo");
+            if (itemDetail.Background != null)
+                itemDetail.BgImage = Functions.SaveFile(itemDetail.Background, relativePath, Server.MapPath(relativePath), itemDetail.Id + "_Background");
+            itemDetail.Id = ListService.Edit(itemDetail);
+            var cats = ListService.GetCategories(true);
+            ViewBag.Type = new SelectList(cats, "CatId", "Name", itemDetail.Id);
+            return View(itemDetail);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }

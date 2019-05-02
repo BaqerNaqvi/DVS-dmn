@@ -54,7 +54,9 @@ namespace Delives.pk.Controllers
         public ActionResult Create(long? partnerId)
         {
             ViewBag.ListItemId = new SelectList(db.ListItems, "Id", "Name", partnerId);
-            return View();
+            return View(new ItemDetailLocal() {
+                ListItemId = partnerId.Value
+            });
         }
 
         // POST: MenuItems/Create
@@ -75,7 +77,7 @@ namespace Delives.pk.Controllers
                 if (itemDetail.ImageFile != null)
                     item.Image = Functions.SaveFile(itemDetail.ImageFile, relativePath, Server.MapPath(relativePath), item.ListItemId + "_Menu_" + item.Id);
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index", item.ListItemId);
+                return RedirectToAction("Index", new { id = item.ListItemId });
             }
 
             ViewBag.ListItemId = new SelectList(db.ListItems, "Id", "Name", item.ListItemId);
@@ -135,7 +137,7 @@ namespace Delives.pk.Controllers
                 if (itemDetail.ImageFile != null)
                     changes.Image = Functions.SaveFile(itemDetail.ImageFile, relativePath, Server.MapPath(relativePath), changes.ListItemId + "_Menu_" + changes.Id);
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index", changes.ListItemId);
+                return RedirectToAction("Index", new { id = changes.ListItemId });
             }
 
             ViewBag.ListItemId = new SelectList(db.ListItems, "Id", "Name", itemDetail.ListItemId);
@@ -159,12 +161,12 @@ namespace Delives.pk.Controllers
         // POST: MenuItems/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(long id)
+        public async Task<ActionResult> DeleteConfirmed(long id, long ListItemId)
         {
             ItemDetail itemDetail = await db.ItemDetails.FindAsync(id);
             db.ItemDetails.Remove(itemDetail);
             await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { id = ListItemId });
         }
 
         protected override void Dispose(bool disposing)
@@ -181,7 +183,7 @@ namespace Delives.pk.Controllers
             {
                 db.ItemDetails.Add(itemDetail);
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { id = itemDetail.ListItemId });
             }
 
             ViewBag.ListItemId = new SelectList(db.ListItems, "Id", "Name", itemDetail.ListItemId);
@@ -193,7 +195,7 @@ namespace Delives.pk.Controllers
             {
                 db.Entry(itemDetail).State = EntityState.Modified;
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { id = itemDetail.ListItemId });
             }
             ViewBag.ListItemId = new SelectList(db.ListItems, "Id", "Name", itemDetail.ListItemId);
             return View(itemDetail);

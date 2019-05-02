@@ -88,17 +88,20 @@ namespace Services.Models
             }
             Random rnd = new Random();
             int img = rnd.Next(1, 5);
-
+            var logoImage = "http://www.delivers.pk/Images/Rest/Small/small_0" + img + ".jpg";
+            if (!string.IsNullOrWhiteSpace(source.LogoImage)) logoImage = source.LogoImage;
+             var bgImage = "http://www.delivers.pk/Images/Rest/Large/large_01.jpg";
+            if (!string.IsNullOrWhiteSpace(source.LogoImage)) bgImage = source.BgImage;
             return new ListItemLocal
             {
                 Address = source.Address,
-                BgImage = "http://www.delivers.pk/Images/Rest/Large/large_01.jpg", //source.BgImage,
+                BgImage = bgImage, //source.BgImage,
                 CreationDate = source.CreationDate.ToShortDateString() +" "+source.CreationDate.ToShortTimeString(),
                 LastEdit = source.LastEdit,
                 Description = source.Description,
                 Id = source.Id,
                 LocationObj = source.Location,
-                LogoImage = "http://www.delivers.pk/Images/Rest/Small/small_0"+img+".jpg", //source.LogoImage,
+                LogoImage = logoImage, //source.LogoImage,
                 Name = source.Name,
                 Phone = source.Phone,
                 Rating = starts.ToString(),                   //source.Rating,
