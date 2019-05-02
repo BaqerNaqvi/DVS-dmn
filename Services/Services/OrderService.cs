@@ -62,9 +62,9 @@ namespace Services.Services
                         Cords = userLoc,
                         EstimatedTime = estimatedTime,
                         SerialNo = serial,
-                        PickedBy= Guid.Empty.ToString(),
-                        UpdatedAt= DateTime.Now,
-                        DeliveryCost=80
+                        PickedBy = Guid.Empty.ToString(),
+                        UpdatedAt = DateTime.Now,
+                        DeliveryCost = 80
                     };
                     dbContext.Orders.Add(order);
 
@@ -91,10 +91,9 @@ namespace Services.Services
                     // generate notification
                     NotificationService.ProcessNotificationRequest(orderstatus, order.Id);
                     orderIds.Add(order.Id.ToString());
-
                 }
 
-                return new PlaceOrderResponseModel { EstimatedTime= estimatedTime, OrderIds= orderIds, SerailNo= serial};
+                return new PlaceOrderResponseModel { EstimatedTime = estimatedTime, OrderIds = orderIds, SerailNo = serial };
             }
         }
 
@@ -106,7 +105,7 @@ namespace Services.Services
                 var response = new GetOrdersResponseModel();
                 var list = dbContext.Orders
                     .Where(
-                        od => od.Status == OrderHistoryEnu.ConfirmedByRestaurant.Value && 
+                        od => od.Status == OrderHistoryEnu.ConfirmedByRestaurant.Value &&
                             od.OrderHistories.Any(str => str.Status == OrderHistoryEnu.ConfirmedByRestaurant.Value && str.IsCurrent))
                     .ToList();
 
@@ -123,9 +122,9 @@ namespace Services.Services
 
                 var inRangeOrders = new List<Order>();
 
-                if(list!=null && list.Any())
+                if (list != null && list.Any())
                 {
-                    foreach(var o in list)
+                    foreach (var o in list)
                     {
                         var dist = CommonService.GetDistance((double)riderLoc.Latitude, (double)riderLoc.Longitude, Convert.ToDouble(o.Cords.Latitude), Convert.ToDouble(o.Cords.Longitude));
                         //if ((int)dist < Convert.ToInt16(10))
@@ -159,7 +158,7 @@ namespace Services.Services
                 var order = dbContext.Orders.FirstOrDefault(o => o.Id.ToString() == orderId);
                 if (order != null)
                 {
-                   return order.MappOrder();
+                    return order.MappOrder();
                 }
                 return null;
             }
@@ -174,16 +173,17 @@ namespace Services.Services
                 var order = dbContext.Orders.Where(o => o.SerialNo.ToString() == serialNo);
                 if (order.Any())
                 {
-                   foreach(var o in order)
+                    foreach (var o in order)
                     {
                         var ord = o.MappOrder();
                         orders.Add(ord);
                     }
                 }
-                return new GetOrderBySerialNoResponse {
-                    Orders= orders,
-                    DeliveryFee= 80,
-                    DeliveryTime= 50 
+                return new GetOrderBySerialNoResponse
+                {
+                    Orders = orders,
+                    DeliveryFee = 80,
+                    DeliveryTime = 50
 
                 };
             }
@@ -214,7 +214,7 @@ namespace Services.Services
                         OrderId = order.Id,
                         DateTime = DateTime.Now,
                         Status = model.NewStatus,
-                        IsCurrent= true
+                        IsCurrent = true
                     });
                     dbContext.SaveChanges();
 
@@ -348,8 +348,8 @@ namespace Services.Services
 
                 var list = dbContext.Orders
                     .Where(
-                        od => od.Status== orderStatus.Value && 
-                            od.OrderHistories.Any(str => str.Status == orderStatus.Value) && od.PickedBy==requestModel.UserId)
+                        od => od.Status == orderStatus.Value &&
+                            od.OrderHistories.Any(str => str.Status == orderStatus.Value) && od.PickedBy == requestModel.UserId)
                     .ToList();
 
                 if (list.Any())
@@ -394,8 +394,8 @@ namespace Services.Services
                 var order = dbContext.Orders.FirstOrDefault(o => o.Id.ToString() == model.OrderId);
                 if (order != null)
                 {
-                  //  var combinedOrders = dbContext.Orders.Where(o => o.SerialNo == order.SerialNo).ToList();
-                  //  var ifSomeoneAppliedAlready = combinedOrders.Any(o => o.Status != OrderHistoryEnu.ConfirmedByRestaurant.Value);
+                    //  var combinedOrders = dbContext.Orders.Where(o => o.SerialNo == order.SerialNo).ToList();
+                    //  var ifSomeoneAppliedAlready = combinedOrders.Any(o => o.Status != OrderHistoryEnu.ConfirmedByRestaurant.Value);
                     var ifSomeoneAppliedAlready = order.Status != OrderHistoryEnu.ConfirmedByRestaurant.Value;
                     if (ifSomeoneAppliedAlready)
                     {
@@ -411,7 +411,7 @@ namespace Services.Services
                     var combinedOrders = new List<Order> { order };  // this one
 
                     foreach (var dbO in combinedOrders)
-                    {                       
+                    {
                         newStatus = OrderHistoryEnu.ConfirmedByRider.Value;
                         if (dbO.Status != OrderHistoryEnu.ConfirmedByRestaurant.Value)
                         {
@@ -457,7 +457,7 @@ namespace Services.Services
                     }
 
                     // generate notifications
-                      NotificationService.ProcessNotificationRequest(newStatus, order.Id);                   
+                    NotificationService.ProcessNotificationRequest(newStatus, order.Id);
                 }
                 return new ApplyRiderResponse
                 {
@@ -471,12 +471,12 @@ namespace Services.Services
         {
             using (var dbContext = new DeliversEntities())
             {
-                string newStatus="";
+                string newStatus = "";
                 var order = dbContext.Orders.FirstOrDefault(o => o.Id.ToString() == model.OrderId);
                 if (order != null)
                 {
-                  //  var combinedOrders = dbContext.Orders.Where(o => o.SerialNo == order.SerialNo).ToList();
-                   // foreach (var dbo in combinedOrders)
+                    //  var combinedOrders = dbContext.Orders.Where(o => o.SerialNo == order.SerialNo).ToList();
+                    // foreach (var dbo in combinedOrders)
                     {
                         // CHECK IF HE APPLIED FOR THIS ORDER OT NOT
                         var isAppliedForOrder = order.PickedBy == model.UserId;
@@ -513,8 +513,8 @@ namespace Services.Services
                     }
 
                     // generate notifications
-                      NotificationService.ProcessNotificationRequest(OrderHistoryEnu.CanceledByRider.Value, order.Id);
-                      NotificationService.ProcessNotificationRequest(newStatus, order.Id);
+                    NotificationService.ProcessNotificationRequest(OrderHistoryEnu.CanceledByRider.Value, order.Id);
+                    NotificationService.ProcessNotificationRequest(newStatus, order.Id);
 
                     return true;
                 }
@@ -537,8 +537,8 @@ namespace Services.Services
                 var localList = new List<Order>();
 
                 var list = dbContext.Orders.Where(o => o.PickedBy == model.UserId &&
-                (string.IsNullOrEmpty(model.Status) || o.Status.ToLower()==model.Status.ToLower())).ToList();
-               
+                (string.IsNullOrEmpty(model.Status) || o.Status.ToLower() == model.Status.ToLower())).ToList();
+
 
                 if (list.Any())
                 {
@@ -559,7 +559,7 @@ namespace Services.Services
                             var finals = take.Select(obj => obj.MappOrder()).ToList();
                             response.Orders = finals;
                         }
-                    }                   
+                    }
                 }
                 response.ItemsPerPage = model.ItemsPerPage;
                 response.CurrentPage++;
@@ -587,8 +587,8 @@ namespace Services.Services
                 var list = dbContext.Orders
                     .Where(
                         od =>
-                            od.OrderHistories.Any(str => str.Status == orderStatus.Value )
-                            && od.OrderDetails.Any(det => det.ItemDetail.ListItemId.ToString()==model.RestaurantId))
+                            od.OrderHistories.Any(str => str.Status == orderStatus.Value)
+                            && od.OrderDetails.Any(det => det.ItemDetail.ListItemId.ToString() == model.RestaurantId))
                     .ToList();
 
                 if (list.Any())
@@ -621,10 +621,12 @@ namespace Services.Services
                 var endDate = Convert.ToDateTime(model.EndDate, CultureInfo.InvariantCulture); // 9/24/2017 9:31:34 AM
 
                 var localList = new List<Order>();
-              
-                var list = (from od in dbContext.Orders where
-                           //  od.DateTime.Date >= startDate.Date && od.DateTime.Date <= endDate.Date &&
-                             od.OrderDetails.Any(det => det.ItemDetail.ListItemId.ToString() == model.RestaurantId) select od).ToList();
+
+                var list = (from od in dbContext.Orders
+                            where
+ //  od.DateTime.Date >= startDate.Date && od.DateTime.Date <= endDate.Date &&
+ od.OrderDetails.Any(det => det.ItemDetail.ListItemId.ToString() == model.RestaurantId)
+                            select od).ToList();
 
                 if (list.Any())
                 {

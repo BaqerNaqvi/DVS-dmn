@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -19,9 +20,10 @@ namespace Delives.pk.Apis
     [Authorize]
     public class OrderController : ApiController
     {
+        
         [HttpPost]
         [Route("api/order/place")]
-        public ResponseModel_PlaceOrder PlaceOrder(PlaceOrderRequestModel listModel)
+        public async System.Threading.Tasks.Task<ResponseModel_PlaceOrder> PlaceOrderAsync(PlaceOrderRequestModel listModel)
         {
             var response = new ResponseModel_PlaceOrder
             {
@@ -51,14 +53,18 @@ namespace Delives.pk.Apis
                         var user = userManager.FindByName(User.Identity.Name);
                         orderById = user.Id;
                     }
-                   
 
+                    var signalRUrl = ConfigurationManager.AppSettings["signalRHubUrl"];
                     var item = OrderService.Place(listModel, orderById);
                     response.Data = item.EstimatedTime;
                     response.OrderId = item.OrderIds;
                     response.SerialNo = item.SerailNo;
                     response.Messages.Add("Success");
                     response.Success = true;
+
+                    //get orders by serial no here
+                    var _order = OrderService.GetOrderDetailsBySerialNo(item.SerailNo);
+                    await SignalRService.NotifyNewOrdersReceivedAsync(_order.Orders, signalRUrl);
                 }
                 catch (Exception excep)
                 {
