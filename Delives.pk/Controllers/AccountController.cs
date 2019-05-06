@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Delives.pk.Models;
+using Services.Services;
 
 namespace Delives.pk.Controllers
 {
@@ -166,8 +167,8 @@ namespace Delives.pk.Controllers
                     Email = "production",
                     FirstName = model.FirstName,
                     LastName = model.LastName,
-                    CreationTime = DateTime.Now,
-                    EditTime = DateTime.Now,
+                    CreationTime = CommonService.GetSystemTime(),
+                    EditTime = CommonService.GetSystemTime(),
                     PhoneNumber = model.PhoneNumber,
                     IsApproved = true,
                     CNIC = model.CNIC,

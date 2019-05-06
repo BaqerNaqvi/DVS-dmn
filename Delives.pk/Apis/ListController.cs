@@ -12,7 +12,6 @@ using Services.Services;
 
 namespace Delives.pk.Apis
 {
-    [Authorize]
     public class ListController : ApiController
     {
         [HttpPost]
@@ -22,8 +21,11 @@ namespace Delives.pk.Apis
             var response = new ResponseModel
             {
                 Success = false,
-                Messages = new List<string>()
+                Messages = new List<string>(),
+                Data= listModel
             };
+           // return response;
+
             if (listModel == null ||  string.IsNullOrEmpty(listModel.Cords))    // 1. food  2.grocery 
             {
                 response.Data = listModel;
@@ -120,7 +122,7 @@ namespace Delives.pk.Apis
                     var menuItems = ListService.GetCategories(model.Status);
                     response.Data = menuItems;
                     response.MessageContents="This is test message from server";
-                    response.ShowMessage = true;
+                    response.ShowMessage = false;
                     response.MessageTitle = "Server Handshake";
 
                     response.Messages.Add("Success");

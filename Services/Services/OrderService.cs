@@ -58,12 +58,12 @@ namespace Services.Services
                         Status = orderstatus,
                         OrderBy = orderBy,
                         Amount = totalAmount,
-                        DateTime = DateTime.Now,
+                        DateTime = CommonService.GetSystemTime(),
                         Cords = userLoc,
                         EstimatedTime = estimatedTime,
                         SerialNo = serial,
                         PickedBy = Guid.Empty.ToString(),
-                        UpdatedAt = DateTime.Now,
+                        UpdatedAt = CommonService.GetSystemTime(),
                         DeliveryCost = 80
                     };
                     dbContext.Orders.Add(order);
@@ -71,7 +71,7 @@ namespace Services.Services
                     dbContext.OrderHistories.Add(new OrderHistory
                     {
                         OrderId = order.Id,
-                        DateTime = DateTime.Now,
+                        DateTime = CommonService.GetSystemTime(),
                         Status = orderstatus,
                         IsCurrent = true
                     });
@@ -201,7 +201,7 @@ namespace Services.Services
                     newStatus = model.NewStatus;
 
                     order.Status = model.NewStatus;
-                    order.UpdatedAt = DateTime.Now;
+                    order.UpdatedAt = CommonService.GetSystemTime();
 
                     var currentHis = dbContext.OrderHistories.FirstOrDefault(d => d.OrderId.ToString() == model.OrderId && d.IsCurrent);
                     if (currentHis != null)
@@ -212,7 +212,7 @@ namespace Services.Services
                     dbContext.OrderHistories.Add(new OrderHistory
                     {
                         OrderId = order.Id,
-                        DateTime = DateTime.Now,
+                        DateTime = CommonService.GetSystemTime(),
                         Status = model.NewStatus,
                         IsCurrent = true
                     });
@@ -274,6 +274,7 @@ namespace Services.Services
                     {
                         dbOrder.DeliveryCost = source.DeliveryCost;
                     }
+                    dbContext.SaveChanges();
                     response.Status = true;
                     response.Error = "";
                     return response;
@@ -421,7 +422,7 @@ namespace Services.Services
 
                         dbO.Status = newStatus;
                         dbO.PickedBy = model.UserId;
-                        dbO.UpdatedAt = DateTime.Now;
+                        dbO.UpdatedAt = CommonService.GetSystemTime();
 
                         var currentHis = dbContext.OrderHistories.FirstOrDefault(d => d.OrderId.ToString() == dbO.Id.ToString() && d.IsCurrent);
                         if (currentHis != null)
@@ -432,7 +433,7 @@ namespace Services.Services
                         dbContext.OrderHistories.Add(new OrderHistory
                         {
                             OrderId = dbO.Id,
-                            DateTime = DateTime.Now,
+                            DateTime = CommonService.GetSystemTime(),
                             Status = newStatus,
                             IsCurrent = true
                         });
@@ -498,14 +499,14 @@ namespace Services.Services
                         dbContext.OrderHistories.Add(new OrderHistory
                         {
                             OrderId = order.Id,
-                            DateTime = DateTime.Now,
+                            DateTime = CommonService.GetSystemTime(),
                             Status = OrderHistoryEnu.CanceledByRider.Value,
                             IsCurrent = false
                         });
                         dbContext.OrderHistories.Add(new OrderHistory
                         {
                             OrderId = order.Id,
-                            DateTime = DateTime.Now,
+                            DateTime = CommonService.GetSystemTime(),
                             Status = newStatus,
                             IsCurrent = true
                         });

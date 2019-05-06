@@ -54,7 +54,7 @@ namespace Delives.pk.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Status,Address,Instructions,PickedBy,DeliveryCost")] Order order)
         {
             var response = OrderService.EditOrder_Admin(order);
@@ -63,7 +63,13 @@ namespace Delives.pk.Controllers
                 return RedirectToAction("Index");
             }
             ModelState.AddModelError(string.Empty, response.Error);
-            return View(order);
+            var refMOdel = new EditOrderModel
+            {
+                Order = OrderService.GetOrderDetails(order.Id.ToString()),
+                OrderStatus = OrderHistoryEnu.GetAllOrderStatus(),
+                Riders = UserService.GetUsersByype("0")
+            };
+            return View(refMOdel);
         }
     }
 }

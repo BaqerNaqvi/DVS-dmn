@@ -20,7 +20,7 @@ namespace Services.Services
                     var dbObj = new Rating
                     {
                         Id = 0,
-                        DateTime = DateTime.Now,
+                        DateTime = CommonService.GetSystemTime(),
                         RatedToItem = source.RatedToItem,
                         IsApproved = true,
                         Comments = source.Comments,

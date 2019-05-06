@@ -8,48 +8,31 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Id)
+            @Html.DisplayNameFor(model => model.Id):
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Id)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.SerialNo)
+            @Html.DisplayNameFor(model => model.SerialNo):
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.SerialNo)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.OrderByName)
+            @Html.DisplayNameFor(model => model.OrderByName):
         </dt>
         <dd>
-            <strong>@Html.DisplayFor(model => model.OrderByName) </strong> -  @Html.DisplayFor(model => model.OrderBy)
+            <strong>@Html.DisplayFor(model => model.OrderByName) </strong> -  @Html.DisplayFor(model => model.OrderByNumber)
         </dd>
-       
         <dt>
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Address)
+            @Html.DisplayNameFor(model => model.Address):
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.Address)
-        </dd>
-
-        <dt>
-            Total Amount
-        </dt>
-
-        <dd>
-           @(Model.Amount + Model.DeliveryCost)
         </dd>
 
 
@@ -61,6 +44,30 @@
             @Html.DisplayFor(model => model.Instructions)
         </dd>
 
+        <dt>
+            Order Amount
+        </dt>
+
+        <dd>
+            @Model.Amount RS
+        </dd>
+        <dt>
+            Delivery Charges
+        </dt>
+
+        <dd>
+            @Model.DeliveryCost RS. <strong>TOTAL</strong> : @(Model.Amount+Model.DeliveryCost)RS  
+        </dd>
+       <hr />
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+       
        
 
         <dt>
@@ -84,16 +91,22 @@
     @{ 
         var restName = "";
         var restId= "" ;
+        var restPhone = "";
+        var restAddress = "";
         if (Model != null && Model.OrderDetails != null)
         {
             restName=  Model.OrderDetails.FirstOrDefault().ItemDetail.ListItem.Name;
+            restPhone = Model.OrderDetails.FirstOrDefault().ItemDetail.ListItem.Phone;
+
+            restAddress = Model.OrderDetails.FirstOrDefault().ItemDetail.ListItem.Address;
+
             restId = Model.OrderDetails.FirstOrDefault().RestId.ToString();
         }
     }
 
     <h3>Items</h3>
     <hr />
-    <span><strong>@restId - @restName </strong></span>
+    <span>@restId <strong> - @restName </strong> - @restAddress -  @restPhone </span>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -124,14 +137,14 @@
                          <td>&nbsp;</td>
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
-                        <td><strong>Sub Total:</strong> @Model.Amount</td>
+                        <td><strong>Sub Total:</strong> @Model.Amount RS</td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
-                        <td><strong>Delivery :</strong> @Model.DeliveryCost</td>
+                        <td><strong>Delivery :</strong> @Model.DeliveryCost RS</td>
                     </tr>
                 }
             }

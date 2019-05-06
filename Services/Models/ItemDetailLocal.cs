@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Web;
 using Services.DbContext;
 using Services.Services;
+using System.Configuration;
+using System.IO;
 
 namespace Services.Models
 {
@@ -49,7 +51,13 @@ namespace Services.Models
     {
         public static ItemDetailLocal ItemDetailMapper(this ItemDetail source)
         {
-            var rr = source.ListItem;
+            string baseUrl = ConfigurationManager.AppSettings["imagesBaseURL"];
+
+            source.Image = baseUrl + "/Content/Images/Partners/" + source.ListItemId + "_Menu_" + source.Id + ".jpg";
+            if (!CommonService.FileExists(source.Image))
+            {
+                source.Image = baseUrl + "/Images/Rest/Small/small_02.jpg";
+            }
             return new ItemDetailLocal
             {
                 Id = source.Id,
@@ -69,6 +77,7 @@ namespace Services.Models
         }
         public static ItemDetail ItemDetailMapper(this ItemDetailLocal source)
         {
+           
             var rr = source.ListItem;
             return new ItemDetail
             {
@@ -89,6 +98,14 @@ namespace Services.Models
 
         public static ItemDetailLocal_Short ItemDetailShortMapper(this ItemDetail source)
         {
+            string baseUrl = ConfigurationManager.AppSettings["imagesBaseURL"];
+            source.Image = baseUrl + "/Content/Images/Partners/" + source.ListItemId + "_Menu_" + source.Id + ".jpg";
+            if (!CommonService.FileExists(source.Image))
+            {
+                source.Image = baseUrl + "/Images/Rest/Small/small_02.jpg";
+            }
+
+
             return new ItemDetailLocal_Short
             {
                 Id = source.Id,

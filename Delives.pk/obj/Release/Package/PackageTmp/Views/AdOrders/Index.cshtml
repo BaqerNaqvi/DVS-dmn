@@ -3,84 +3,99 @@
     ViewBag.Title = "View Orders";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+
+<script src="~/Scripts/Order/order-main.js"></script>
+
 <h2>All Orders</h2>
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.DateTime)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Status)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Address)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Amount)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EstimatedTime)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Instructions)
-        </th>
+<table class="table" id="allOrdersTable">
+    <thead>
+    <th>
+        @Html.DisplayNameFor(model => model.Id)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.SerialNo)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.DateTime)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.Status)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.Address)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.Amount)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.EstimatedTime)
+    </th>
 
-        <th>
-            @Html.DisplayNameFor(model => model.SerialNo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PickedBy)
-        </th>
+    <th>
+        @Html.DisplayNameFor(model => model.PickedBy)
+    </th>
 
-        <th>
-            @Html.DisplayNameFor(model => model.DeliveryCost)
-        </th>
+    @*<th>
+        @Html.DisplayNameFor(model => model.DeliveryCost)
+    </th>*@
 
-        <th></th>
-    </tr>
+    <th></th>
+    </thead>
+    <tbody>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Amount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EstimatedTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Instructions)
-            </td>
+        @foreach (var item in Model)
+        {
+            var cls = "";
+            if (item.Status == "Placed")
+            {
+                cls = "order_placed";
+            }
 
-            <td>
-                @Html.DisplayFor(modelItem => item.SerialNo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PickedBy)
-            </td>
+            <tr class="@cls">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SerialNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Amount)
+                </td>
+               
+                <td>
+                    @Html.DisplayFor(modelItem => item.EstimatedTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PickedBy)
+                </td>
 
-            <td>
-                @Html.DisplayFor(modelItem => item.DeliveryCost)
-            </td>
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.DeliveryCost)
+                </td>*@
 
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-            </td>
-        </tr>
-    }
-
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
+
+
+
+@*@Scripts.Render("~/bundles/order-main")*@

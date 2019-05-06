@@ -48,3 +48,7 @@ C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Services\bin\Debug
 C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Services\bin\Debug\Newtonsoft.Json.xml
 C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Services\obj\Debug\Services.dll
 C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Services\obj\Debug\Services.pdb
+C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Services\bin\Debug\Microsoft.AspNet.SignalR.Client.dll
+C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Services\bin\Debug\Microsoft.AspNet.SignalR.Client.pdb
+C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Services\bin\Debug\Microsoft.AspNet.SignalR.Client.xml
+C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Services\obj\Debug\Services.csprojResolveAssemblyReference.cache

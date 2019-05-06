@@ -12,6 +12,7 @@ using Services.Models;
 using System.Configuration;
 using Delives.pk.Utilities;
 using System.IO;
+using Services.Services;
 
 namespace Delives.pk.Controllers
 {
@@ -59,24 +60,22 @@ namespace Delives.pk.Controllers
             });
         }
 
-        // POST: MenuItems/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "Id,Name,Price,ListItemId,ImageFile,Status,Description,Type")] ItemDetailLocal itemDetail)
         {
-            itemDetail.CreationDate = itemDetail.EditDate = DateTime.Now;
-            itemDetail.Image = "http://via.placeholder.com/40x40";
+            itemDetail.CreationDate = itemDetail.EditDate = CommonService.GetSystemTime();
+            itemDetail.Image = "img added";
             var item = itemDetail.ItemDetailMapper();
             if (ModelState.IsValid)
             {
                 db.ItemDetails.Add(item);
                 await db.SaveChangesAsync();
                 var relativePath = ConfigurationManager.AppSettings["saveImagesIn"];
+
                 if (itemDetail.ImageFile != null)
-                    item.Image = Functions.SaveFile(itemDetail.ImageFile, relativePath, Server.MapPath(relativePath), item.ListItemId + "_Menu_" + item.Id);
-                await db.SaveChangesAsync();
+                   Functions.SaveFile(itemDetail.ImageFile, relativePath, Server.MapPath(relativePath), item.ListItemId + "_Menu_" + item.Id);
+
                 return RedirectToAction("Index", new { id = item.ListItemId });
             }
 
@@ -121,8 +120,8 @@ namespace Delives.pk.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "Id,Name,Price,ListItemId,ImageFile,Status,Description,Type")] ItemDetailLocal itemDetail)
         {
-            itemDetail.EditDate = DateTime.Now;
-            itemDetail.Image = "http://via.placeholder.com/40x40";
+            itemDetail.EditDate = CommonService.GetSystemTime();
+            itemDetail.Image = "https://via.placeholder.com/40x40";
             if (ModelState.IsValid)
             {
                 var changes = db.ItemDetails.FirstOrDefault(i => i.Id == itemDetail.Id);

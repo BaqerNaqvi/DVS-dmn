@@ -26,12 +26,12 @@ namespace Services.Services
             var obj = new ListItem
             {
                 Address = source.Address,
-                BgImage = "http://via.placeholder.com/200x100",
+                BgImage = "https://via.placeholder.com/1350x450",
                 Closes = source.Closes,
                 Cords = loc,
-                CreationDate = DateTime.Now, 
+                CreationDate = CommonService.GetSystemTime(), 
                 Description = source.Description,
-                LastEdit = DateTime.Now,
+                LastEdit = CommonService.GetSystemTime(),
                 Location = loc,
                 Name = source.Name,
                 Phone = source.Phone,
@@ -40,7 +40,7 @@ namespace Services.Services
                 Type = source.Type,
                 Rating = "0.00",
                 MinOrder = source.MinOrder,
-                LogoImage = "http://via.placeholder.com/200x100"
+                LogoImage = "https://via.placeholder.com/120x120"
 
             };
             using (var dbContext = new DeliversEntities())
@@ -69,7 +69,7 @@ namespace Services.Services
                 obj.Closes = source.Closes;
                 obj.Cords = loc;
                 obj.Description = source.Description;
-                obj.LastEdit = DateTime.Now;
+                obj.LastEdit = CommonService.GetSystemTime();
                 obj.Location = loc;
                 obj.Name = source.Name;
                 obj.Phone = source.Phone;
@@ -78,9 +78,9 @@ namespace Services.Services
                 obj.Type = source.Type;
                 obj.MinOrder = source.MinOrder;
                 if (!string.IsNullOrWhiteSpace(source.BgImage))
-                    obj.BgImage = source.BgImage;
+                    obj.BgImage = "bg_edit";
                 if (!string.IsNullOrWhiteSpace(source.LogoImage))
-                    obj.LogoImage = source.LogoImage;
+                    obj.LogoImage = "logo_edit";
                 dbContext.SaveChanges();
             }
             return source.Id;
@@ -90,9 +90,16 @@ namespace Services.Services
             using (var dbContext = new DeliversEntities())
             {
                 var item = dbContext.ListItems.First(x => x.Id == source.Id);
-                item.BgImage = source.BgImage;
-                item.LogoImage = source.LogoImage;
-                item.LastEdit = DateTime.Now;
+                //if (string.IsNullOrEmpty(source.BgImage))
+                //{
+                    item.BgImage = "image added";
+                //}
+                //if (string.IsNullOrEmpty(source.LogoImage))
+                //{
+
+                    item.LogoImage = "logo added";
+                //}
+                item.LastEdit = CommonService.GetSystemTime();
                 dbContext.SaveChanges();
             }
             return true;
@@ -140,7 +147,8 @@ namespace Services.Services
             using (var dbContext = new DeliversEntities())
             {
                 var allCats = GetCategories(true);
-                if (requestModel.IsWeb && (requestModel.TypeList == null || requestModel.TypeList.Count() == 0))
+                if ( (requestModel.IsWeb && (requestModel.TypeList == null || requestModel.TypeList.Count() == 0)) ||
+                     ( !requestModel.IsWeb && (requestModel.Type == -1 )))
                 {
                     requestModel.TypeList = new List<int>();
                     requestModel.TypeList = allCats.Select(c => (int)c.CatId).ToList();
@@ -155,7 +163,9 @@ namespace Services.Services
                     searchText = requestModel.SearchTerm.ToLower();
                 }
 
-                var list = dbContext.ListItems.Where(item => ((requestModel.IsWeb && requestModel.TypeList.Any(o => o == item.Type)) ||
+                var list = dbContext.ListItems.Where(item => item.Status &&
+                ((requestModel.IsWeb && requestModel.TypeList.Any(o => o == item.Type)) ||
+                (!requestModel.IsWeb && requestModel.Type==-1 && requestModel.TypeList.Any(o => o == item.Type)) ||
                  (item.Type == requestModel.Type && !requestModel.IsWeb))
 
                  &&
@@ -202,7 +212,7 @@ namespace Services.Services
 
             using (var dbContext = new DeliversEntities())
             {
-                return dbContext.ListItems.Where(L => L.Status).ToList().Select(o => o.MapListItem()).ToList();
+                return dbContext.ListItems.OrderBy(p => p.Name).ToList().Select(o => o.MapListItem()).ToList();
             }
         }
 
@@ -212,7 +222,7 @@ namespace Services.Services
             model.CurrentPage--;
             using (var dbcontext = new DeliversEntities())
             {
-                var items = dbcontext.ItemDetails.Where(det => det.ListItemId == model.ItemId
+                var items = dbcontext.ItemDetails.Where(det =>det.Status && det.ListItemId == model.ItemId
                 && (string.IsNullOrEmpty(model.SearchTerm) || det.Name.ToLower().Contains(model.SearchTerm.ToLower())
                 || det.Description.ToLower().Contains(model.SearchTerm.ToLower()))
                 ).ToList();
@@ -272,7 +282,7 @@ namespace Services.Services
                     Description = source.Description,
                     Phone = source.Phone,
                     LogoImage = source.LogoImage,
-                    LastEdit = DateTime.Now,
+                    LastEdit = CommonService.GetSystemTime(),
                     BgImage = source.BgImage,
                     Address = source.Address,
                     Rating = source.Rating,
@@ -280,7 +290,7 @@ namespace Services.Services
                     Id = source.Id,
                     Status = source.Status,
                     Cords = loc,
-                    CreationDate = DateTime.Now
+                    CreationDate = CommonService.GetSystemTime()
                 };
                 dbContext.ListItems.Add(dbObj);
                 dbContext.SaveChanges();
@@ -304,7 +314,7 @@ namespace Services.Services
                             var obj = new ListItems_Favt
                             {
                                 ItemId = Convert.ToInt64(source.ItemId),
-                                DateTime = DateTime.Now,
+                                DateTime = CommonService.GetSystemTime(),
                                 UserId = source.UserId
                             };
                             dbContext.ListItems_Favt.Add(obj);

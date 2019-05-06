@@ -12,7 +12,9 @@
 </p>
 <table class="table">
     <tr>
-       
+       <th>
+
+       </th>
         <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
@@ -23,16 +25,12 @@
         <th>
             @Html.DisplayNameFor(model => model.Phone)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Rating)
-        </th>
+      
         <th>
             @Html.DisplayNameFor(model => model.Address)
         </th>
         
-        <th>
-            @Html.DisplayNameFor(model => model.CreationDate)
-        </th>
+      
         
         <th>
             @Html.DisplayNameFor(model => model.Opens)
@@ -47,8 +45,14 @@
     </tr>
 
 @foreach (var item in Model) {
+
+    var imgSrc = "../../Content/Images/Partners/" + item.Id +  "_Logo.jpg";
+
+
     <tr>
-       
+        <td>
+            <img class="menuItemImg" src="@imgSrc" />
+        </td>
         <td>
             @Html.ActionLink(item.Name, "Details", "Partner", new { id = item.Id}, new {})
         </td>
@@ -59,17 +63,11 @@
         <td>
             @Html.DisplayFor(modelItem => item.Phone)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Rating)
-        </td>
+        
         <td>
             @Html.DisplayFor(modelItem => item.Address)
         </td>
-        
-        <td>
-            @Html.DisplayFor(modelItem => item.CreationDate)
-        </td>
-        
+       
         <td>
             @Html.DisplayFor(modelItem => item.Opens)
         </td>

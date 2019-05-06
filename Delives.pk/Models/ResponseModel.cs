@@ -25,7 +25,10 @@ namespace Delives.pk.Models
         public Object Code { get; set; }
     }
 
-
+    public class ResponseModel_Approved : ResponseModel
+    {
+        public Object Code { get; set; }
+    }
     public class ResponseModel_PlaceOrder : ResponseModel
     {
         public Object OrderId { get; set; }

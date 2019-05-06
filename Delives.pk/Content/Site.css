@@ -26,3 +26,12 @@ textarea {
 .newOrder {
     background-color: #d5fbb8;
 }
+
+.order_placed{
+        background-color: #e6b8b8;
+}
+
+.menuItemImg{
+    height: 50px;
+    width: 50px;
+}

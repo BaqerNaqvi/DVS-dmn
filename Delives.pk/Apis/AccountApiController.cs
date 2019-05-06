@@ -97,8 +97,8 @@ namespace Delives.pk.Apis
                         // Email = model.PhoneNumber+"@delivers.pk",
                         FirstName = model.FirstName,
                         LastName = model.LastName,
-                        CreationTime = DateTime.Now,
-                        EditTime = DateTime.Now,
+                        CreationTime = CommonService.GetSystemTime(),
+                        EditTime = CommonService.GetSystemTime(),
                         PhoneNumber = model.PhoneNumber,
                         Type = 1,    // 1-> user , 0 ->  delivery boy
                         IsApproved = true,
@@ -305,9 +305,9 @@ namespace Delives.pk.Apis
 
         [System.Web.Mvc.HttpPost]
         [Route("api/Account/IsUserApproved")]
-        public ResponseModel CheckUserStatus(SignInModelForApis model)
+        public ResponseModel_Approved CheckUserStatus(SignInModelForApis model)
         {
-            var response = new ResponseModel
+            var response = new ResponseModel_Approved
             {
                 Success = false,
                 Messages = new List<string>()
@@ -325,23 +325,30 @@ namespace Delives.pk.Apis
                             response.Success = false;
                             response.Messages.Add("Please verify phone number!");
                             response.Data = user;
+                            response.Code = 2;
                         }
                         else if (!user.IsApproved)
                         {
                             response.Success = false;
                             response.Messages.Add("Please contact admin to approve your user");
                             response.Data = user;
+                            response.Code = 5;
+
                         }
                         else
                         {
                             response.Success = true;
                             response.Messages.Add("User is verified and approved");
                             response.Data = user;
+                            response.Code = 1;
+
                         }
                     }
                     else
                     {
                         response.Messages.Add("Invalid phone number/password");
+                        response.Code = 4;
+
                     }
 
                 }
@@ -602,7 +609,7 @@ namespace Delives.pk.Apis
             // mobile number 
             mobile = mobile.Substring(1).Replace("-", "");
             mobile = "92" + mobile;
-            Services.Services.EmailService.SendSms(mobile, "Your verification code is : " + phoneCode);
+            Services.Services.EmailService.SendSms(mobile, "Your verification code is : " + phoneCode+ ". Visit https://delivers.pk or call 0553828677 for details.");
             return phoneCode;
         }
         #endregion
@@ -835,8 +842,8 @@ namespace Delives.pk.Apis
                         // Email = model.PhoneNumber+"@delivers.pk",
                         FirstName = model.FirstName,
                         LastName = model.LastName,
-                        CreationTime = DateTime.Now,
-                        EditTime = DateTime.Now,
+                        CreationTime = CommonService.GetSystemTime(),
+                        EditTime = CommonService.GetSystemTime(),
                         PhoneNumber = model.PhoneNumber,
                         IsApproved = false,
                         CNIC = model.CNIC,

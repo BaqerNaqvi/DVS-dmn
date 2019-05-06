@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -76,6 +77,28 @@ namespace Services.Services
                 default:
                     return "NA";
             }
+        }
+
+        public static DateTime GetSystemTime()
+        {
+            return DateTime.UtcNow.AddHours(5);
+        }
+
+        public static bool FileExists(string url)
+        {
+            bool exist = false;
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)System.Net.WebRequest.Create(url);
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                {
+                    exist = response.StatusCode == HttpStatusCode.OK;
+                }
+            }
+            catch
+            {
+            }
+            return exist;
         }
     }
 }

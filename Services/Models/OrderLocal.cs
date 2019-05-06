@@ -28,6 +28,7 @@ namespace Services.Models
 
         [Display(Name = "Order By")]
         public string OrderByName { get; set; }
+        public string OrderByNumber { get; set; }
         public  List<OrderDetailLocal> OrderDetails { get; set; }
 
         public List<OrderHistoryLocal> History { get; set; }
@@ -37,6 +38,8 @@ namespace Services.Models
         public int? DeliveryCost { get; set; }
 
         public DateTime UpdatedAt { get; set; }
+
+        public string RestName { get; set; }
 
     }
 
@@ -59,6 +62,7 @@ namespace Services.Models
 
         public DateTime UpdatedAt { get; set; }
 
+        public string RestName { get; set; }
 
     }
 
@@ -78,12 +82,14 @@ namespace Services.Models
                 Status = source.Status,
                 OrderBy = source.OrderBy,
                 OrderByName = source.AspNetUser.FirstName +" "+ source.AspNetUser.LastName,
+                OrderByNumber= source.AspNetUser.UserName,
                 OrderDetails = source.OrderDetails.Select( det => det.MapODetailLocal()).ToList(),
                 SerialNo = source.SerialNo,
                 PickedBy=  source.PickedBy,
                 History= source.OrderHistories.Select(his => his.MapOrderHistory()).ToList(),
                 DeliveryCost= source.DeliveryCost,
-                UpdatedAt= (DateTime)source.UpdatedAt
+                UpdatedAt= (DateTime)source.UpdatedAt,
+                RestName= source.OrderDetails.FirstOrDefault().ItemDetail.ListItem.Name
             };
         }
 
@@ -100,7 +106,9 @@ namespace Services.Models
                 PickupAddresses = new []{source.OrderDetails.FirstOrDefault().ItemDetail.ListItem.Address},
                 History = source.OrderHistories.Select(his => his.MapOrderHistory()).ToList(),
                 DeliveryCost = source.DeliveryCost,
-                UpdatedAt = (DateTime)source.UpdatedAt
+                UpdatedAt = (DateTime)source.UpdatedAt,
+                RestName = source.OrderDetails.FirstOrDefault().ItemDetail.ListItem.Name
+
 
 
             };

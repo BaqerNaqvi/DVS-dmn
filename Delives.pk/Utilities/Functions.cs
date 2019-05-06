@@ -12,7 +12,7 @@ namespace Delives.pk.Utilities
         public static string SaveFile(HttpPostedFileBase file, string relativePath, string serverPath, string fileName = null, int type = 0)
         {
             string _path = null;
-            string fileExtention = Path.GetExtension(file.FileName);
+            string fileExtention = ".jpg"; Path.GetExtension(file.FileName);
             fileName = fileName + fileExtention;
             //string baseUrl = Request.Url.Scheme + "://" + Request.Url.Authority + Request.ApplicationPath.TrimEnd('/') + "/";
             try

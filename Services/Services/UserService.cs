@@ -30,7 +30,7 @@ namespace Services.Services
                             {
                                 UserId = requestModel.UserId,
                                 Location= userLoc,
-                                LastUpdated= DateTime.Now
+                                LastUpdated= CommonService.GetSystemTime()
                             };
                             dbContext.Rider_Location_Map.Add(obj);
                         }

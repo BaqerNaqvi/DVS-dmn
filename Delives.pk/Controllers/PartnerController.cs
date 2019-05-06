@@ -23,12 +23,12 @@ namespace Delives.pk.Controllers
         {
             model.Id = ListService.Create(model);
             var relativePath = ConfigurationManager.AppSettings["saveImagesIn"];
-            if (model.LogoImage != null)
-                model.LogoImage = Functions.SaveFile(model.Logo, relativePath, Server.MapPath(relativePath), model.Id + "_Logo");
-            if (model.BgImage != null)
-                model.BgImage = Functions.SaveFile(model.Logo, relativePath, Server.MapPath(relativePath), model.Id + "_Background");
+            if (model.Logo != null)
+               Functions.SaveFile(model.Logo, relativePath, Server.MapPath(relativePath), model.Id + "_Logo");
+            if (model.Background != null)
+               Functions.SaveFile(model.Background, relativePath, Server.MapPath(relativePath), model.Id + "_Background");
             ListService.UpdateImages(model);
-            return View(model);
+            return RedirectToAction("View");
         }
 
         [HttpGet]
@@ -88,13 +88,14 @@ namespace Delives.pk.Controllers
         {
             var relativePath = ConfigurationManager.AppSettings["saveImagesIn"];
             if (itemDetail.Logo != null)
-                itemDetail.LogoImage = Functions.SaveFile(itemDetail.Logo, relativePath, Server.MapPath(relativePath), itemDetail.Id + "_Logo");
+               Functions.SaveFile(itemDetail.Logo, relativePath, Server.MapPath(relativePath), itemDetail.Id + "_Logo");
             if (itemDetail.Background != null)
-                itemDetail.BgImage = Functions.SaveFile(itemDetail.Background, relativePath, Server.MapPath(relativePath), itemDetail.Id + "_Background");
+               Functions.SaveFile(itemDetail.Background, relativePath, Server.MapPath(relativePath), itemDetail.Id + "_Background");
             itemDetail.Id = ListService.Edit(itemDetail);
             var cats = ListService.GetCategories(true);
             ViewBag.Type = new SelectList(cats, "CatId", "Name", itemDetail.Id);
-            return View(itemDetail);
+            return RedirectToAction("view");
+
         }
 
         protected override void Dispose(bool disposing)

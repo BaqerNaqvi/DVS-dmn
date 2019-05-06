@@ -1,0 +1,119 @@
+﻿@model Services.Models.ListItemLocal
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ItemDetail</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Phone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Phone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rating)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rating)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreationDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreationDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TypeName)
+        </dd>
+        
+        <dt>
+            @Html.DisplayNameFor(model => model.Opens)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Opens)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Closes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Closes)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LogoImage)
+        </dt>
+
+        <dd>
+            <img height="200" width="200" src= "@Url.Content(Model.LogoImage)" alt="Image" />
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.BgImage)
+        </dt>
+
+        <dd>
+            <img height="200" width="200" src= "@Url.Content(Model.BgImage)" alt="Image" />
+        </dd>
+        <dt>
+            Menu
+        </dt>
+
+        <dd>  
+            @Html.ActionLink("Menu", "Index", "MenuItems", new { id = Model.Id}, new {})          
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "View")
+</p>
