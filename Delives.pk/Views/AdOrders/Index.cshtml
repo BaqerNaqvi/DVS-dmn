@@ -9,7 +9,6 @@
 
 <h2>All Orders</h2>
 <p>
-    @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table" id="allOrdersTable">
     <thead>
@@ -29,15 +28,13 @@
         @Html.DisplayNameFor(model => model.Address)
     </th>
     <th>
+        @Html.DisplayNameFor(model => model.RestName)
+    </th>
+    <th>
         @Html.DisplayNameFor(model => model.Amount)
     </th>
-    <th>
-        @Html.DisplayNameFor(model => model.EstimatedTime)
-    </th>
-
-    <th>
-        @Html.DisplayNameFor(model => model.PickedBy)
-    </th>
+    
+    
 
     @*<th>
         @Html.DisplayNameFor(model => model.DeliveryCost)
@@ -49,7 +46,13 @@
 
         @foreach (var item in Model)
         {
-            <tr>
+            var cls = "";
+            if (item.Status == "Placed")
+            {
+                cls = "order_placed";
+            }
+
+            <tr class="@cls">
                 <td>
                     @Html.DisplayFor(modelItem => item.Id)
                 </td>
@@ -66,16 +69,13 @@
                     @Html.DisplayFor(modelItem => item.Address)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.RestName)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.Amount)
                 </td>
                
-                <td>
-                    @Html.DisplayFor(modelItem => item.EstimatedTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PickedBy)
-                </td>
-
+              
                 @*<td>
                     @Html.DisplayFor(modelItem => item.DeliveryCost)
                 </td>*@

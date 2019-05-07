@@ -184,3 +184,17 @@ C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Delives.pk\bin\Mic
 C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Delives.pk\obj\Release\Delives.pk.csprojResolveAssemblyReference.cache
 C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Delives.pk\obj\Release\Delives.pk.dll
 C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Delives.pk\obj\Release\Delives.pk.pdb
+C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Delives.pk\bin\SqlServerTypes\x64\msvcr120.dll
+C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Delives.pk\bin\SqlServerTypes\x64\SqlServerSpatial140.dll
+C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Delives.pk\bin\SqlServerTypes\x86\msvcr120.dll
+C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Delives.pk\bin\SqlServerTypes\x86\SqlServerSpatial140.dll
+C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Delives.pk\bin\Microsoft.SqlServer.Types.dll
+C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Delives.pk\bin\Microsoft.AspNet.SignalR.Core.dll
+C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Delives.pk\bin\Microsoft.AspNet.SignalR.SystemWeb.dll
+C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Delives.pk\bin\Microsoft.AspNet.SignalR.Client.dll
+C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Delives.pk\bin\Microsoft.AspNet.SignalR.Core.pdb
+C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Delives.pk\bin\Microsoft.AspNet.SignalR.Core.xml
+C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Delives.pk\bin\Microsoft.AspNet.SignalR.SystemWeb.pdb
+C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Delives.pk\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
+C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Delives.pk\bin\Microsoft.AspNet.SignalR.Client.pdb
+C:\Users\baqer.naqvi.AFINITI\source\repos\DeliversAdminAndApi\Delives.pk\bin\Microsoft.AspNet.SignalR.Client.xml

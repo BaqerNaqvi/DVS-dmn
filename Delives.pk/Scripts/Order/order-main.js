@@ -65,13 +65,16 @@ const orderMainJsObj = {
             toastr.options.fadeOut = 5000;
             toastr.success(`New order received, to deliver on ${order.Address}`);
             var audio = new Audio(soundNotificationFileUrl);
-            audio.play();
+            const playPromise= audio.play();
+            if (playPromise !== null) {
+                playPromise.catch(() => { media.play(); })
+            }
         });
         $('#allOrdersTable tbody tr:first').before(ordersHTML);
 
     }
 }
 
-setTimeout(function () {
-    location.reload();
-}, 30000);
+//setTimeout(function () {
+//    location.reload();
+//}, 30000);

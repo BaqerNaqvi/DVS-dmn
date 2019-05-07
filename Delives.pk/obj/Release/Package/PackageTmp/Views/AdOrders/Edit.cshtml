@@ -1,0 +1,118 @@
+﻿@model Services.Models.EditOrderModel
+
+@{
+    ViewBag.Title = "Order Edit";
+}
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+
+
+@{
+    List<SelectListItem> OrderStatus = new List<SelectListItem>();
+    if (Model != null && Model.OrderStatus != null && Model.OrderStatus.Any())
+    {
+        foreach (var cat in Model.OrderStatus)
+        {
+            var isSelected = cat.Value.ToLower().Equals(Model.Order.Status.ToLower());
+
+            OrderStatus.Add(new SelectListItem
+            {
+                Text = cat.Value,
+                Value = cat.Value,
+                Selected= isSelected
+            });
+
+        }
+    }
+
+}
+
+
+@{
+    List<SelectListItem> riders = new List<SelectListItem> {
+        new SelectListItem {Text="[ assign rider ]", Value= Guid.Empty.ToString() }
+    };
+    if (Model != null && Model.Riders != null && Model.Riders.Any())
+    {
+        foreach (var cat in Model.Riders)
+        {
+            var isSelected = cat.Id == Model.Order.PickedBy;
+            riders.Add(new SelectListItem
+            {
+                Text = cat.FirstName + cat.LastName,
+                Value = cat.Id,
+                Selected= isSelected
+            });
+
+        }
+    }
+
+    }
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h3>Edit Order</h3>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Order.Id)
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Order.Status, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Order.Status, OrderStatus, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Order.Status, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Order.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Order.Address, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Order.Address, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Order.Instructions, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Order.Instructions, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Order.Instructions, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Order.PickedBy, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Order.PickedBy, riders, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Order.PickedBy, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Order.DeliveryCost, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Order.DeliveryCost, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Order.DeliveryCost, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

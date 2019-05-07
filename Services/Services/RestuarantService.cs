@@ -27,14 +27,14 @@ namespace Services.Services
             }
         }
 
-        public static ListItemLocal GetRestaurantById(long restId)
+        public static ListItemLocal_Short GetRestaurantById(long restId)
         {
             using (var dbContext = new DeliversEntities())
             {
                 var restaurantMap = dbContext.ListItems.FirstOrDefault(o => o.Id==restId);
                 if (restaurantMap != null)
                 {
-                    return restaurantMap.MapListItem();
+                    return restaurantMap.MapListItem_ShortM();
                 }
                 return null;
             }

@@ -1,0 +1,178 @@
+﻿@model Services.Models.OrderLocal
+@{ 
+    ViewBag.Title = "Order Details";
+
+}
+<div>
+    <h3>Order Details</h3>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SerialNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SerialNo)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderByName)
+        </dt>
+        <dd>
+            <strong>@Html.DisplayFor(model => model.OrderByName) </strong> -  @Html.DisplayFor(model => model.OrderBy)
+        </dd>
+       
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+
+        <dt>
+            Total Amount
+        </dt>
+
+        <dd>
+           @(Model.Amount + Model.DeliveryCost)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Instructions)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Instructions)
+        </dd>
+
+       
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PickedBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PickedBy)
+       </dd>
+
+
+        <dt>
+            Last Updated At
+        </dt>
+
+        <dd>
+           @Model.UpdatedAt.ToLongDateString() @Model.UpdatedAt.ToLongTimeString()
+        </dd>
+
+    </dl>
+    @{ 
+        var restName = "";
+        var restId= "" ;
+        if (Model != null && Model.OrderDetails != null)
+        {
+            restName=  Model.OrderDetails.FirstOrDefault().ItemDetail.ListItem.Name;
+            restId = Model.OrderDetails.FirstOrDefault().RestId.ToString();
+        }
+    }
+
+    <h3>Items</h3>
+    <hr />
+    <span><strong>@restId - @restName </strong></span>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Item Id</th>
+                <th>Item Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @{
+                if (Model != null && Model.OrderDetails != null)
+                {
+                    foreach (var his in Model.OrderDetails)
+                    {
+                        <tr>
+                            <td>@his.Id</td>
+                            <td>@his.ItemName</td>
+                            <td>@his.ItemDetail.Price</td>
+                            <td>@his.Quantity</td>
+                            <td>@(his.Quantity*his.ItemDetail.Price)</td>
+                        </tr>
+                    }
+                    <tr>
+                         <td><strong>Total Items:</strong> @Model.OrderDetails.Count()</td>
+                         <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td><strong>Sub Total:</strong> @Model.Amount</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td><strong>Delivery :</strong> @Model.DeliveryCost</td>
+                    </tr>
+                }
+            }
+
+
+        </tbody>
+    </table>
+
+
+
+    <h3>History</h3>
+    <hr />
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Status</th>
+                <th>Time</th>
+                <th>Current</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @{
+                if (Model != null && Model.History != null)
+                {
+                    foreach (var his in Model.History)
+                    {
+                        <tr>
+                            <td>@his.Status</td>
+                            <td>@his.DateTime.ToLongDateString() @his.DateTime.ToLongTimeString()</td>
+                            <td>@his.IsCurrent</td>
+                        </tr>
+                    }
+                }
+            }
+            
+           
+        </tbody>
+    </table>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

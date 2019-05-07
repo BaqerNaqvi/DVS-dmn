@@ -23,7 +23,7 @@ namespace Services.Services
                     foreach(var tok in tokens)
                     {
                         tok.Token1 = source.Token;
-                        tok.DateTime = DateTime.Now;
+                        tok.DateTime = CommonService.GetSystemTime();
                     }
                     dbContext.SaveChanges();
                 }
@@ -34,7 +34,7 @@ namespace Services.Services
                         AppId = source.AppId,
                         Token1 = source.Token,
                         UserId = source.UserId,
-                        DateTime = DateTime.Now
+                        DateTime = CommonService.GetSystemTime()
                     };
                     dbContext.Tokens.Add(obj);
                     dbContext.SaveChanges();
@@ -126,8 +126,8 @@ namespace Services.Services
                                 var tempoNoti = new Notification
                                 {
                                     AppId = model.AppId,
-                                    DateTime = DateTime.Now,
-                                    Text= model.Text+ "at "+DateTime.Now.ToLongTimeString(),
+                                    DateTime = CommonService.GetSystemTime(),
+                                    Text= model.Text+ " at "+ CommonService.GetSystemTime().ToLongTimeString(),
                                     UserId = user.Id
                                 };
                                 dbContext.Notifications.Add(tempoNoti);
@@ -152,7 +152,7 @@ namespace Services.Services
 
         private static string SendNotiInner(long appId, string token, string message, string title)
         {
-            var mId = DateTime.Now.Millisecond;
+            var mId = CommonService.GetSystemTime().Millisecond;
             var jGcmData = new JObject();
             var jData = new JObject();
             var url = new Uri("https://fcm.googleapis.com/fcm/send");
@@ -200,7 +200,7 @@ namespace Services.Services
                                         {
 
                                             AppId = appId,
-                                            DateTime = DateTime.Now,
+                                            DateTime = CommonService.GetSystemTime(),
                                             Text = message,
                                             UserId = "0beab117-d8ef-4a8e-9978-b66b35a56be5"
                                         });
@@ -251,7 +251,7 @@ namespace Services.Services
                                 var token = dbContext.Tokens.FirstOrDefault(u => u.UserId == mapping.UserId);
                                 if (token != null)
                                 {
-                                    SendNotiInner(2, token.Token1, "New order has been placed","New Order Arrived");
+                                    SendNotiInner(2, token.Token1, "New order#"+orderId+" has been placed","New Order Arrived");
                                 }
                             }
                         }
@@ -278,7 +278,7 @@ namespace Services.Services
                                 var token = dbContext.Tokens.FirstOrDefault(u => u.UserId == mapping.UserId);
                                 if (token != null)
                                 {
-                                    SendNotiInner(2, token.Token1, "Order no. " + orderId + " has been canceled by customer", "Order canceled");
+                                    SendNotiInner(2, token.Token1, "Order #" + orderId + " has been canceled by customer", "Order canceled");
                                 }
                             }
                         }                       
@@ -318,7 +318,7 @@ namespace Services.Services
                         if (token != null)
                         {
                             var restName = order.OrderDetails.FirstOrDefault().ItemDetail.ListItem.Name;
-                            SendNotiInner(1, token.Token1, "Your order has been confirmed by " + restName, "Order Confirmed");
+                            SendNotiInner(1, token.Token1, "Your order#"+orderId+" has been confirmed by " + restName, "Order Confirmed");
                         }
                         #endregion
 
@@ -331,7 +331,7 @@ namespace Services.Services
                                 var riderToken = dbContext.Tokens.FirstOrDefault(l => l.UserId == r.Id);
                                 if (riderToken != null)
                                 {
-                                    SendNotiInner(0, riderToken.Token1, "There's new order in your area", "New Order Available");
+                                    SendNotiInner(0, riderToken.Token1, "There's new order#"+orderId+" in your area", "New Order Available");
                                 }
                             }
                         }
@@ -356,7 +356,7 @@ namespace Services.Services
                         var token = dbContext.Tokens.FirstOrDefault(u => u.UserId == order.OrderBy);
                         if (token != null)
                         {
-                            SendNotiInner(1, token.Token1, "Your order ready at "+restName+" for pickup", "Order Ready For Pickup");
+                            SendNotiInner(1, token.Token1, "Your order#"+orderId+" ready at "+restName+" for pickup", "Order Ready For Pickup");
                         }
                         #endregion
 
@@ -364,7 +364,7 @@ namespace Services.Services
                         var riderToken = dbContext.Tokens.FirstOrDefault(l => l.UserId == order.PickedBy);
                         if (riderToken != null)
                         {
-                            SendNotiInner(0, riderToken.Token1, "Your order is ready for pick up at "+restName, "Order Ready For Pickup");
+                            SendNotiInner(0, riderToken.Token1, "Your order#" + orderId + " is ready for pick up at " + restName, "Order Ready For Pickup");
                         }
                         #endregion
                     }
@@ -391,7 +391,7 @@ namespace Services.Services
                                 var token = dbContext.Tokens.FirstOrDefault(u => u.UserId == mapping.UserId);
                                 if (token != null)
                                 {
-                                    SendNotiInner(2, token.Token1, "Order no. " + orderId + " has been CONFIRMED by Rider", "Order confirmed by Rider");
+                                    SendNotiInner(2, token.Token1, "Order #" + orderId + " has been CONFIRMED by Rider", "Order confirmed by Rider");
                                 }
                             }
                         }
@@ -418,7 +418,7 @@ namespace Services.Services
                                 var token = dbContext.Tokens.FirstOrDefault(u => u.UserId == mapping.UserId);
                                 if (token != null)
                                 {
-                                    SendNotiInner(2, token.Token1, "Order no. " + orderId + " has been canceled by Rider", "Order canceled by Rider");
+                                    SendNotiInner(2, token.Token1, "Order #" + orderId + " has been canceled by Rider", "Order canceled by Rider");
                                 }
                             }
                         }                       
@@ -442,7 +442,7 @@ namespace Services.Services
                         var token = dbContext.Tokens.FirstOrDefault(u => u.UserId == order.OrderBy);
                         if (token != null)
                         {
-                            SendNotiInner(1, token.Token1, "Your order has been picked up from " + restName + " ", "Order Shipped");
+                            SendNotiInner(1, token.Token1, "Your order#" + orderId + " has been picked up from " + restName + " ", "Order Shipped");
                         }
                         #endregion
                     }
@@ -467,7 +467,7 @@ namespace Services.Services
                             var token = dbContext.Tokens.FirstOrDefault(u => u.UserId == mapping.UserId);
                             if (token != null)
                             {
-                                SendNotiInner(2, token.Token1, "Order no. " + orderId + " has been delivered to customer", "Order delivered");
+                                SendNotiInner(2, token.Token1, "Order #" + orderId + " has been delivered to customer", "Order delivered");
                             }
                         }
                     }

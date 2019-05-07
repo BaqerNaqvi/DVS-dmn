@@ -20,8 +20,8 @@ namespace Delives.pk.Controllers
                 Phone= "055-89335696",
                 Rating= "4.1",
                 Address= "Noshehra Road Grw",
-                LogoImage= "http://via.placeholder.com/200x100",
-                BgImage= "http://via.placeholder.com/200x100",
+                LogoImage= "https://via.placeholder.com/200x100",
+                BgImage= "https://via.placeholder.com/200x100",
                 Status= true
             };
          //   ListService.AddNewRestaurent(obj);

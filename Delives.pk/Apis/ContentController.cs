@@ -50,7 +50,7 @@ namespace Delives.pk.Apis
                 //var item = ItemDetailsService.GetItemDetailLocalById(listModel.ItemId);
                 response.Data = new ContactUsResponseModel
                 {
-                    Address = "292 F-Block Johar Town Lahore",
+                    Address = "Sadiq Center Shahrah-e-Quaid-e-Azam Rahwali Cantt Grw.",
                     Email = "contact@delivers.pk",
                     Mobile = "923466043805",
                     Phone = "92553896536"
@@ -123,7 +123,5 @@ namespace Delives.pk.Apis
 
             return response;
         }
-
-
     }
 }

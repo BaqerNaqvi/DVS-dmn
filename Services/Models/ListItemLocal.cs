@@ -8,6 +8,8 @@ using Services.Services;
 using System.Data.Entity.Spatial;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
+using System.Configuration;
+using System.IO;
 
 namespace Services.Models
 {
@@ -62,7 +64,14 @@ namespace Services.Models
         public string Name { get; set; }
         public string Address { get; set; }
 
-        public string LogoImage { get; set; }  
+        public string LogoImage { get; set; }
+        public string Phone { get; set; }
+        public string BgImage { get; set; }
+        public string Description { get; set; }
+        public string Cords { get; set; } // lat_long
+        public string Rating { get; set; }
+
+
     }
 
 
@@ -86,22 +95,29 @@ namespace Services.Models
                     starts = rating.Sum(y => y.RatingStar) / rating.Count;
                 }
             }
-            Random rnd = new Random();
-            int img = rnd.Next(1, 5);
-            var logoImage = "http://www.delivers.pk/Images/Rest/Small/small_0" + img + ".jpg";
-            if (!string.IsNullOrWhiteSpace(source.LogoImage)) logoImage = source.LogoImage;
-             var bgImage = "http://www.delivers.pk/Images/Rest/Large/large_01.jpg";
-            if (!string.IsNullOrWhiteSpace(source.LogoImage)) bgImage = source.BgImage;
+
+            string baseUrl = ConfigurationManager.AppSettings["imagesBaseURL"];
+
+            source.LogoImage = baseUrl + "/Content/Images/Partners/"+source.Id+"_Logo.jpg";
+            if (!CommonService.FileExists(source.LogoImage)){
+                source.LogoImage = baseUrl+"/Images/Rest/Small/small_02.jpg";
+            }
+            source.BgImage = baseUrl + "/Content/Images/Partners/" + source.Id + "_Background.jpg";
+            if (!CommonService.FileExists(source.BgImage))
+            {
+                source.BgImage = baseUrl + "/Images/Rest/Large/large_01.jpg";
+            }
+         
             return new ListItemLocal
             {
                 Address = source.Address,
-                BgImage = bgImage, //source.BgImage,
+                BgImage = source.BgImage,
                 CreationDate = source.CreationDate.ToShortDateString() +" "+source.CreationDate.ToShortTimeString(),
                 LastEdit = source.LastEdit,
                 Description = source.Description,
                 Id = source.Id,
                 LocationObj = source.Location,
-                LogoImage = logoImage, //source.LogoImage,
+                LogoImage = source.LogoImage,
                 Name = source.Name,
                 Phone = source.Phone,
                 Rating = starts.ToString(),                   //source.Rating,
@@ -118,12 +134,45 @@ namespace Services.Models
 
         public static ListItemLocal_Short MapListItem_ShortM(this ListItem source)
         {
+            var loc = "";
+            if (source.Cords != null)
+            {
+                loc = source.Cords.Latitude + "_" + source.Cords.Longitude;
+            }
+
+            var rating = new List<RatingLocal>();
+            var starts = 0.0;
+            if (source.Rating != null && source.Rating.Any())
+            {
+                rating = source.Ratings.Select(r => r.MappReviewe()).ToList();
+                if (rating.Any())
+                {
+                    starts = rating.Sum(y => y.RatingStar) / rating.Count;
+                }
+            }
+            string baseUrl = ConfigurationManager.AppSettings["imagesBaseURL"];
+
+            source.LogoImage = baseUrl + "/Content/Images/Partners/" + source.Id + "_Logo.jpg";
+            if (!CommonService.FileExists(source.LogoImage))
+            {
+                source.LogoImage = baseUrl + "/Images/Rest/Small/small_02.jpg";
+            }
+            source.BgImage = baseUrl + "/Content/Images/Partners/" + source.Id + "_Background.jpg";
+            if (!CommonService.FileExists(source.BgImage))
+            {
+                source.BgImage = baseUrl + "/Images/Rest/Large/large_01.jpg";
+            }
             return new ListItemLocal_Short
             {               
                 Id = source.Id,
                 Address = source.Address,
                 LogoImage = source.LogoImage,
-                Name = source.Name,                
+                Phone= source.Phone,
+                Name = source.Name,   
+                BgImage= source.BgImage    ,
+                Cords= loc,
+                Description= source.Description,
+               Rating= source.Rating 
             };
         }
     }

@@ -58,12 +58,12 @@ namespace Services.Services
                         Status = orderstatus,
                         OrderBy = orderBy,
                         Amount = totalAmount,
-                        DateTime = DateTime.Now,
+                        DateTime = CommonService.GetSystemTime(),
                         Cords = userLoc,
                         EstimatedTime = estimatedTime,
                         SerialNo = serial,
                         PickedBy = Guid.Empty.ToString(),
-                        UpdatedAt = DateTime.Now,
+                        UpdatedAt = CommonService.GetSystemTime(),
                         DeliveryCost = 80
                     };
                     dbContext.Orders.Add(order);
@@ -71,7 +71,7 @@ namespace Services.Services
                     dbContext.OrderHistories.Add(new OrderHistory
                     {
                         OrderId = order.Id,
-                        DateTime = DateTime.Now,
+                        DateTime = CommonService.GetSystemTime(),
                         Status = orderstatus,
                         IsCurrent = true
                     });
@@ -201,7 +201,7 @@ namespace Services.Services
                     newStatus = model.NewStatus;
 
                     order.Status = model.NewStatus;
-                    order.UpdatedAt = DateTime.Now;
+                    order.UpdatedAt = CommonService.GetSystemTime();
 
                     var currentHis = dbContext.OrderHistories.FirstOrDefault(d => d.OrderId.ToString() == model.OrderId && d.IsCurrent);
                     if (currentHis != null)
@@ -212,7 +212,7 @@ namespace Services.Services
                     dbContext.OrderHistories.Add(new OrderHistory
                     {
                         OrderId = order.Id,
-                        DateTime = DateTime.Now,
+                        DateTime = CommonService.GetSystemTime(),
                         Status = model.NewStatus,
                         IsCurrent = true
                     });
@@ -226,7 +226,71 @@ namespace Services.Services
             }
         }
 
+        public static UpdateOrderResponse EditOrder_Admin(Order source)
+        {
+            var response = new UpdateOrderResponse { };
+            using (var dbContext = new DeliversEntities())
+            {
+                var dbOrder = dbContext.Orders.FirstOrDefault(o => o.Id == source.Id);
+                if (dbOrder != null)
+                {
+                    #region STATUS
+                    if (dbOrder.Status != source.Status)
+                    {
+                        var dbOrderStatus = OrderService.GetOrderCurrentStatus(source.Id.ToString());
+                        var updatedOrderStatus = OrderHistoryEnu.GetOrderStatus(source.Status);
 
+                        if (updatedOrderStatus.Order - dbOrderStatus.Order > 1)
+                        {
+                            response.Status = false;
+                            response.Error = "Invalid order status";
+                            return response;
+                        }
+
+                        // UPDATE STATUS
+                        ChangeOrderStatus(new ChangeOrderStatusRequesrModel {
+                             OrderId= source.Id.ToString(),
+                            NewStatus= source.Status,
+                            UserId = null
+                        });
+                    }
+
+                    #endregion
+
+                    #region EDIT
+                    if (source.Address.ToLower() != dbOrder.Address.ToLower())
+                    {
+                        dbOrder.Address = source.Address;
+                    }
+                    if (source.Instructions.ToLower() != dbOrder.Instructions.ToLower())
+                    {
+                        dbOrder.Instructions = source.Instructions;
+                    }
+                    if (source.PickedBy.ToLower() != dbOrder.PickedBy.ToLower())
+                    {
+                        dbOrder.PickedBy = source.PickedBy;
+                    }
+                    if (source.DeliveryCost != dbOrder.DeliveryCost)
+                    {
+                        dbOrder.DeliveryCost = source.DeliveryCost;
+                    }
+                    dbContext.SaveChanges();
+                    response.Status = true;
+                    response.Error = "";
+                    return response;
+                    #endregion
+
+                }
+                else
+                {
+                    response.Status = false;
+                    response.Error = "Invalid order Id";
+                    return response;
+                }
+            }
+        }
+
+   
         public static OrderHistoryEnu GetOrderCurrentStatus(string orderid)
         {
             using (var dbContext = new DeliversEntities())
@@ -358,7 +422,7 @@ namespace Services.Services
 
                         dbO.Status = newStatus;
                         dbO.PickedBy = model.UserId;
-                        dbO.UpdatedAt = DateTime.Now;
+                        dbO.UpdatedAt = CommonService.GetSystemTime();
 
                         var currentHis = dbContext.OrderHistories.FirstOrDefault(d => d.OrderId.ToString() == dbO.Id.ToString() && d.IsCurrent);
                         if (currentHis != null)
@@ -369,7 +433,7 @@ namespace Services.Services
                         dbContext.OrderHistories.Add(new OrderHistory
                         {
                             OrderId = dbO.Id,
-                            DateTime = DateTime.Now,
+                            DateTime = CommonService.GetSystemTime(),
                             Status = newStatus,
                             IsCurrent = true
                         });
@@ -435,14 +499,14 @@ namespace Services.Services
                         dbContext.OrderHistories.Add(new OrderHistory
                         {
                             OrderId = order.Id,
-                            DateTime = DateTime.Now,
+                            DateTime = CommonService.GetSystemTime(),
                             Status = OrderHistoryEnu.CanceledByRider.Value,
                             IsCurrent = false
                         });
                         dbContext.OrderHistories.Add(new OrderHistory
                         {
                             OrderId = order.Id,
-                            DateTime = DateTime.Now,
+                            DateTime = CommonService.GetSystemTime(),
                             Status = newStatus,
                             IsCurrent = true
                         });
@@ -606,7 +670,7 @@ namespace Services.Services
         {
             using (var dbContext = new DeliversEntities())
             {
-                var orders = dbContext.Orders.ToList().Select(o => o.MappOrder()).ToList();
+                var orders = dbContext.Orders.ToList().OrderByDescending(o=> o.Id).Select(o=> o.MappOrder()).ToList();
                 return orders;
             }
         }

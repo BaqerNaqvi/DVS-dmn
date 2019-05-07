@@ -42,6 +42,8 @@ namespace Services.Services
 
         public static string SendSms(string mobile, string contents)
         {
+            SendSMS(mobile, contents, "923466043805", "3186");
+            return "okay";
             const string url = "http://www.sms4connect.com/api/sendsms.php/sendsms/url";
             String result = "";
             String message = System.Web.HttpUtility.UrlEncode(contents);
@@ -74,6 +76,43 @@ namespace Services.Services
                 sr.Close();
             }
             return result;
+        }
+
+        public static string SendSMS(string toNumber, string MessageText, string MyUsername, string MyPassword)
+        {
+            String URI = "http://sendpk.com" +
+            "/api/sms.php?" +
+            "username=" + MyUsername +
+            "&sender=" + "yolo" +
+            "&password=" + MyPassword +
+            "&mobile=" + toNumber +
+            "&message=" + Uri.UnescapeDataString(MessageText); // Visual Studio 10-15 
+            try
+            {
+                WebRequest req = WebRequest.Create(URI);
+                WebResponse resp = req.GetResponse();
+                var sr = new System.IO.StreamReader(resp.GetResponseStream());
+                return sr.ReadToEnd().Trim();
+            }
+            catch (WebException ex)
+            {
+                var httpWebResponse = ex.Response as HttpWebResponse;
+                if (httpWebResponse != null)
+                {
+                    switch (httpWebResponse.StatusCode)
+                    {
+                        case HttpStatusCode.NotFound:
+                            return "404:URL not found :" + URI;
+                            break;
+                        case HttpStatusCode.BadRequest:
+                            return "400:Bad Request";
+                            break;
+                        default:
+                            return httpWebResponse.StatusCode.ToString();
+                    }
+                }
+            }
+            return null;
         }
     }
 }

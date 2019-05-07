@@ -25,10 +25,20 @@ namespace Delives.pk.Models
         public Object Code { get; set; }
     }
 
-
+    public class ResponseModel_Approved : ResponseModel
+    {
+        public Object Code { get; set; }
+    }
     public class ResponseModel_PlaceOrder : ResponseModel
     {
         public Object OrderId { get; set; }
         public Object SerialNo { get; set; }
+    }
+
+    public class ResponseModel_GetCatogries : ResponseModel
+    {
+        public bool ShowMessage { get; set; }
+        public string MessageTitle { get; set; }
+        public string MessageContents { get;set;}
     }
 }

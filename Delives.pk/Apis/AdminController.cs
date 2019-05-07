@@ -31,7 +31,7 @@ namespace Delives.pk.Apis
                 try
                 {
                     var item = AdminService.AddUserIssue(listModel);
-                    response.Data = "Thank you for your feedback. Your request tracking number is : "+Guid.NewGuid()+". We will get back to you soon.";
+                    response.Data = "Thank you.Your request # is : "+Guid.NewGuid().ToString().Substring(0,4)+". We will get back to you soon.";
                     response.Messages.Add("Success");
                     response.Success = true;
                 }
