@@ -176,4 +176,11 @@ namespace Services.Models
             };
         }
     }
+
+
+    public class ListItemTrimmedForSearch
+    {
+        public string Name { get; set; }
+        public long Id { get; set; }
+    }
 }

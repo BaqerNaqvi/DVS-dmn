@@ -5,91 +5,91 @@
 }
 
 
+<style>
+    /*.label-ad-order {
+        float: left;
+        margin-left: 14px;
+        margin-top: 6px;
+    }*/
+</style>
+
+<script src="~/Scripts/jquery-ui.js"></script>
 <script src="~/Scripts/Order/order-main.js"></script>
+
+<script src="~/Scripts/bootstrap-multiselect.js"></script>
+<link href="~/Content/bootstrap-multiselect.css" rel="stylesheet" />
+<link href="~/Content/jquery-ui.css" rel="stylesheet" />
 
 <h2>All Orders</h2>
 <p>
 </p>
-<table class="table" id="allOrdersTable">
-    <thead>
-    <th>
-        @Html.DisplayNameFor(model => model.Id)
-    </th>
-    <th>
-        @Html.DisplayNameFor(model => model.SerialNo)
-    </th>
-    <th>
-        @Html.DisplayNameFor(model => model.DateTime)
-    </th>
-    <th>
-        @Html.DisplayNameFor(model => model.Status)
-    </th>
-    <th>
-        @Html.DisplayNameFor(model => model.Address)
-    </th>
-    <th>
-        @Html.DisplayNameFor(model => model.RestName)
-    </th>
-    <th>
-        @Html.DisplayNameFor(model => model.Amount)
-    </th>
-    
-    
 
-    @*<th>
-        @Html.DisplayNameFor(model => model.DeliveryCost)
-    </th>*@
+<div class="row">
+    @*commenting these out for now, these are used for multi-select*@
+    @*<div class="col-md-3">
+            <div class="form-group">
+                <label for="order-status-input" class="label-ad-order">Status</label>
+                <select class="form-control" multiple="multiple" id="order-status-input" name="order-status-input"></select>
 
-    <th></th>
-    </thead>
-    <tbody>
+            </div>
+        </div>
 
-        @foreach (var item in Model)
-        {
-            var cls = "";
-            if (item.Status == "Placed")
-            {
-                cls = "order_placed";
-            }
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="order-delivered-by-input" class="label-ad-order">Delivered By</label>
+                <select class="form-control" multiple="multiple" id="order-delivered-by-input" name="order-delivered-by-input"></select>
+            </div>
+        </div>
 
-            <tr class="@cls">
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SerialNo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DateTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Status)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Address)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RestName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Amount)
-                </td>
-               
-              
-                @*<td>
-                    @Html.DisplayFor(modelItem => item.DeliveryCost)
-                </td>*@
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="order-res-input" class="label-ad-order">Restaurants/Store</label>
+                <select class="form-control" multiple="multiple" id="order-res-input" name="order-res-input"></select>
+            </div>
+        </div>*@
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="order-status-input" class="label-ad-order">Status</label>
+            <select class="form-control" id="order-status-input" name="order-status-input"></select>
 
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+        </div>
+    </div>
 
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="order-delivered-by-input" class="label-ad-order">Delivered By</label>
+            <select class="form-control" id="order-delivered-by-input" name="order-delivered-by-input"></select>
+        </div>
+    </div>
 
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="order-res-input" class="label-ad-order">Restaurants/Store</label>
+            <select class="form-control" id="order-res-input" name="order-res-input"></select>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <button class="btn-primary" onclick="orderMainJsObj.searchOrders()">Search</button>
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="date-from-order" class="label-ad-order">Date From</label>
+            <input type="text" class="form-control datePicker" id="date-from-order" name="date-from-order">
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="date-to-order" class="label-ad-order">Date To</label>
+            <input type="text" class="form-control datePicker" id="date-to-order" name="date-to-order">
+        </div>
+    </div>
+
+</div>
+<div id="all-orders-table">
+    @RenderPage("~/Views/AdOrders/_OrdersTable.cshtml", Model);
+</div>
 
 @*@Scripts.Render("~/bundles/order-main")*@

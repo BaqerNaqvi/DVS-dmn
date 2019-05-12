@@ -248,9 +248,10 @@ namespace Services.Services
                         }
 
                         // UPDATE STATUS
-                        ChangeOrderStatus(new ChangeOrderStatusRequesrModel {
-                             OrderId= source.Id.ToString(),
-                            NewStatus= source.Status,
+                        ChangeOrderStatus(new ChangeOrderStatusRequesrModel
+                        {
+                            OrderId = source.Id.ToString(),
+                            NewStatus = source.Status,
                             UserId = null
                         });
                     }
@@ -290,7 +291,7 @@ namespace Services.Services
             }
         }
 
-   
+
         public static OrderHistoryEnu GetOrderCurrentStatus(string orderid)
         {
             using (var dbContext = new DeliversEntities())
@@ -670,8 +671,80 @@ namespace Services.Services
         {
             using (var dbContext = new DeliversEntities())
             {
-                var orders = dbContext.Orders.ToList().OrderByDescending(o=> o.Id).Select(o=> o.MappOrder()).ToList();
+                var orders = dbContext.Orders.ToList().OrderByDescending(o => o.Id).Select(o => o.MappOrder()).ToList();
                 return orders;
+            }
+        }
+
+        public static List<OrderLocal> GetFilteredOrders_Admin(SearchOrdersRequestModel source)
+        {
+            using (var dbContext = new DeliversEntities())
+            {
+                try
+                {
+                    //var results = dbContext.Orders.Where(x => (source.ListStatuses.Count == 0 || (source.ListStatuses.Any(s => s == x.Status))) &&
+                    //(source.ListRiders.Count == 0 || (source.ListRiders.Any(s => x.PickedBy.Equals(s)))) &&
+                    //(source.ListRestaurants.Count == 0 || (source.ListRestaurants.Any(s => x.OrderDetails.FirstOrDefault().ItemDetail.Id == s)))
+                    //).ToList().OrderByDescending(o => o.Id).Select(o => o.MappOrder()).ToList();
+                    var abc = dbContext.Orders.ToList();
+                    var results = dbContext.Orders.Where(x => (source.ListStatuses.Count == 0)
+                    && (source.ListRiders.Count == 0 || (source.ListRiders.Any(s => x.PickedBy.Equals(s))))
+                    ).ToList().OrderByDescending(o => o.Id).Select(o => o.MappOrder()).ToList();
+                    return results;
+                }
+                catch (Exception e)
+                {
+                    return null;
+                    //throw;
+                }
+
+                //var orders = dbContext.Orders.ToList().OrderByDescending(o => o.Id).Select(o => o.MappOrder()).ToList();
+            }
+        }
+
+        public static List<OrderLocal> GetFilteredOrdersSingle_Admin(SearchOrdersRequestModelSingle source)
+        {
+            using (var dbContext = new DeliversEntities())
+            {
+                try
+                {
+                    //var results = dbContext.Orders.Where(x => (source.ListStatuses.Count == 0 || (source.ListStatuses.Any(s => s == x.Status))) &&
+                    //(source.ListRiders.Count == 0 || (source.ListRiders.Any(s => x.PickedBy.Equals(s)))) &&
+                    //(source.ListRestaurants.Count == 0 || (source.ListRestaurants.Any(s => x.OrderDetails.FirstOrDefault().ItemDetail.Id == s)))
+                    //).ToList().OrderByDescending(o => o.Id).Select(o => o.MappOrder()).ToList();
+
+                    //temp code,remove asap.
+                    var abc = dbContext.Orders.ToList();
+                    var results = dbContext.Orders.Where(x => (string.IsNullOrEmpty(source.Status) || x.Status == source.Status)
+                    && (string.IsNullOrEmpty(source.Rider) || (source.Rider == x.PickedBy))
+                    && (source.Restaurant == null || (source.Restaurant == x.OrderDetails.FirstOrDefault().RestId))
+
+                    );
+
+                    if (source.OrderDateFrom != DateTime.MinValue && source.OrderDateTo != DateTime.MinValue)
+                    {
+                        results.Where(x => x.DateTime.Date.CompareTo(source.OrderDateFrom) > -1 && x.DateTime.CompareTo(source.OrderDateTo) < 1);
+                    }
+
+                    else if (source.OrderDateTo != DateTime.MinValue)
+                    {
+                        results= results.Where(x=>x.DateTime.Date.CompareTo(source.OrderDateTo) < 1);
+                    }
+                    else if(source.OrderDateFrom != DateTime.MinValue)
+                    {
+                        results = results.Where(x => x.DateTime.Date.CompareTo(source.OrderDateFrom) > -1);
+                    }
+                    var _filtered = results.ToList().OrderByDescending(o => o.Id).Select(o => o.MappOrder()).ToList();
+
+                    return _filtered;
+                }
+                catch (Exception e)
+                {
+                    return null;
+                    //throw;
+                }
+
+                //var orders = dbContext.Orders.ToList().OrderByDescending(o => o.Id).Select(o => o.MappOrder()).ToList();
             }
         }
 

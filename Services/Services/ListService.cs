@@ -216,6 +216,17 @@ namespace Services.Services
             }
         }
 
+        public static List<ListItemTrimmedForSearch> GetItemsForSearch_AdminPanel()
+        {
+
+            using (var dbContext = new DeliversEntities())
+            {
+                return dbContext.ListItems.OrderBy(p => p.Name).ToList().Select(o => new ListItemTrimmedForSearch() {
+                    Id=o.Id,
+                    Name=o.Name
+                }).ToList();
+            }
+        }
 
         public static List<ItemDetailLocal_Short> GetMenuByListItemId(GetMenuRequestModel model)
         {

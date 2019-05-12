@@ -130,7 +130,12 @@
     <Compile Include="DbContext\User_Rest_Map.cs">
       <DependentUpon>DeliversModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\PredicateBuilder.cs" />
     <Compile Include="HmsEmailService.cs" />
+    <Compile Include="Models\AllOrderStatuses.cs" />
+    <Compile Include="Models\AllRestaurants.cs" />
+    <Compile Include="Models\AllRiders.cs" />
+    <Compile Include="Models\GenericResponse.cs" />
     <Compile Include="Models\GetListRequestModel.cs" />
     <Compile Include="Models\GetListResponseModel.cs" />
     <Compile Include="Models\GetOrderBySerialNoResponse.cs" />
@@ -145,6 +150,7 @@
     <Compile Include="Models\OrderLocal.cs" />
     <Compile Include="Models\PaggingModel.cs" />
     <Compile Include="Models\RatingLocal.cs" />
+    <Compile Include="Models\SearchOrdersRequestModel.cs" />
     <Compile Include="Models\UserLocal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AdminService.cs" />
