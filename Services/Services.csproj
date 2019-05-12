@@ -124,6 +124,9 @@
     <Compile Include="DbContext\Rider_Location_Map.cs">
       <DependentUpon>DeliversModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DbContext\Sm.cs">
+      <DependentUpon>DeliversModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DbContext\Token.cs">
       <DependentUpon>DeliversModel.tt</DependentUpon>
     </Compile>
@@ -131,6 +134,7 @@
       <DependentUpon>DeliversModel.tt</DependentUpon>
     </Compile>
     <Compile Include="HmsEmailService.cs" />
+    <Compile Include="Models\AlterOrderRequestModel.cs" />
     <Compile Include="Models\GetListRequestModel.cs" />
     <Compile Include="Models\GetListResponseModel.cs" />
     <Compile Include="Models\GetOrderBySerialNoResponse.cs" />

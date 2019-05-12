@@ -18,6 +18,8 @@ namespace Services.Models
         public OrderLocal Order { get; set; }
 
         public bool IsCurrent { get; set; }
+        public string Comments { get; set; }
+
 
     }
 
@@ -32,7 +34,8 @@ namespace Services.Models
                 OrderId = source.OrderId,
                 Status= source.Status,
                 DateTime= source.DateTime,
-                IsCurrent= source.IsCurrent
+                IsCurrent= source.IsCurrent,
+                Comments= source.Comments
             };
         }
 

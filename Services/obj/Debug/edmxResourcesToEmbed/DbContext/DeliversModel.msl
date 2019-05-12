@@ -212,6 +212,7 @@
     <EntitySetMapping Name="OrderHistories">
       <EntityTypeMapping TypeName="DeliversModel.OrderHistory">
         <MappingFragment StoreEntitySet="OrderHistory">
+          <ScalarProperty Name="Comments" ColumnName="Comments" />
           <ScalarProperty Name="IsCurrent" ColumnName="IsCurrent" />
           <ScalarProperty Name="DateTime" ColumnName="DateTime" />
           <ScalarProperty Name="Status" ColumnName="Status" />
@@ -228,6 +229,16 @@
           <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sms">
+      <EntityTypeMapping TypeName="DeliversModel.Sm">
+        <MappingFragment StoreEntitySet="Sms">
+          <ScalarProperty Name="Time" ColumnName="Time" />
+          <ScalarProperty Name="Contetns" ColumnName="Contetns" />
+          <ScalarProperty Name="ToNumber" ColumnName="ToNumber" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>

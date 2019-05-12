@@ -3,7 +3,13 @@
     ViewBag.Title = "View Orders";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
 
+    .lastTd{
+        width: 14%;
+    }
+
+</style>
 
 <script src="~/Scripts/Order/order-main.js"></script>
 
@@ -54,7 +60,7 @@
 
             <tr class="@cls">
                 <td>
-                    @Html.DisplayFor(modelItem => item.Id)
+                    <a href="/AdOrders/Details/@item.Id">@item.Id</a>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.SerialNo)
@@ -75,15 +81,10 @@
                     @Html.DisplayFor(modelItem => item.Amount)
                 </td>
                
-              
-                @*<td>
-                    @Html.DisplayFor(modelItem => item.DeliveryCost)
-                </td>*@
-
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            
+                <td class="lastTd">
+                    <button class="btn btn-primary"><a style="color:white" href="/AdOrders/Edit/@item.Id">Edit</a></button>
+                    <button class="btn btn-default"><a style="color:black" href="/AdOrders/Details/@item.Id">Details</a></button>
                 </td>
             </tr>
         }

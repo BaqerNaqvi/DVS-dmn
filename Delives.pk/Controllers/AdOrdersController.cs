@@ -9,20 +9,21 @@ using System.Web.Mvc;
 using Services.DbContext;
 using Services.Services;
 using Services.Models;
-
 namespace Delives.pk.Controllers
 {
+
+    [Authorize]
     public class AdOrdersController : Controller
     {
 
-        // GET: AdOrders
+        [Authorize(Roles = "admin,operator,visitor")]
         public ActionResult Index()
         {
             var orders = OrderService.GetAllOrders_Admin();
             return View(orders.ToList());
         }
 
-        // GET: AdOrders/Details/5
+        [Authorize(Roles = "admin,operator,visitor")]
         public ActionResult Details(string id)
         {
             if (id == null)
@@ -34,7 +35,7 @@ namespace Delives.pk.Controllers
         }
 
 
-        // GET: AdOrders/Edit/5
+        [Authorize(Roles = "admin,operator")]
         public ActionResult Edit(string id)
         {
             if (id == null)
@@ -53,9 +54,10 @@ namespace Delives.pk.Controllers
         // POST: AdOrders/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "admin,operator")]
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Status,Address,Instructions,PickedBy,DeliveryCost")] Order order)
+        public ActionResult Edit([Bind(Include = "Id,Status,Address,Instructions,PickedBy,DeliveryCost,Comments")] OrderLocal order)
         {
             var response = OrderService.EditOrder_Admin(order);
             if (response.Status)
@@ -70,6 +72,13 @@ namespace Delives.pk.Controllers
                 Riders = UserService.GetUsersByype("0")
             };
             return View(refMOdel);
+        }
+
+        [HttpPost]
+        public JsonResult AlterOrder(AlterOrderRequestModel source)
+        {
+            var response = OrderService.AlterOrder_Admin(source);
+            return Json(response, JsonRequestBehavior.AllowGet);
         }
     }
 }

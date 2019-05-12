@@ -36,6 +36,7 @@ namespace Services.Models
     }
 
 
+
     public class GetTermsResponseModel
     {
         public List<string> Items { get; set; }
@@ -83,6 +84,12 @@ namespace Services.Models
     }
 
     public class ApplyRiderResponse
+    {
+        public bool isSuccesss { get; set; }
+        public string Message { get; set; }
+    }
+
+    public class AlterOrderResponse
     {
         public bool isSuccesss { get; set; }
         public string Message { get; set; }

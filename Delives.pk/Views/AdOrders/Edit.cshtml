@@ -70,6 +70,15 @@
             </div>
         </div>
 
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Order.Comments, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Order.Comments, new { htmlAttributes = new { @class = "form-control"}, style = "width: 30%;" })
+                @Html.ValidationMessageFor(model => model.Order.Comments, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
         <div class="form-group">
             @Html.LabelFor(model => model.Order.Address, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -107,12 +116,18 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" onclick="editOrderCalled()" value="Save" class="btn btn-danger" />
+                <img id="loading" style="width:40px;display:none" src="~/Content/Images/loading.gif" />
             </div>
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    <button class="btn btn-default"><a href="/AdOrders/Index">Back to List</a></button>
 </div>
+<script>
+    function editOrderCalled() {
+        $("#loading").show();
+    }
+</script>

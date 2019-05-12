@@ -111,6 +111,7 @@
       <End Role="OrderHistory" EntitySet="OrderHistories" />
     </AssociationSet>
     <EntitySet Name="ListCategories" EntityType="DeliversModel.ListCategory" />
+    <EntitySet Name="Sms" EntityType="DeliversModel.Sm" />
   </EntityContainer>
   <EntityType Name="ItemDetail">
     <Key>
@@ -487,6 +488,7 @@
     <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="IsCurrent" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="Order" Relationship="DeliversModel.FK_OrderHistory_Order" FromRole="OrderHistory" ToRole="Order" />
+    <Property Name="Comments" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
   </EntityType>
   <Association Name="FK_OrderHistory_Order">
     <End Type="DeliversModel.Order" Role="Order" Multiplicity="1" />
@@ -510,5 +512,14 @@
     <Property Name="Status" Type="Boolean" Nullable="false" />
     <Property Name="CreationTime" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="CatId" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Sm">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ToNumber" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="Contetns" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Time" Type="DateTime" Nullable="false" Precision="3" />
   </EntityType>
 </Schema>

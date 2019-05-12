@@ -121,9 +121,9 @@ namespace Delives.pk.Apis
                 {
                     var menuItems = ListService.GetCategories(model.Status);
                     response.Data = menuItems;
-                    response.MessageContents="This is test message from server";
-                    response.ShowMessage = false;
-                    response.MessageTitle = "Server Handshake";
+                    response.MessageContents= "Enjoy free delivery for the whole week from 10am-7pm";
+                    response.ShowMessage = true;
+                    response.MessageTitle = "Free Delivery";
 
                     response.Messages.Add("Success");
                     response.Success = true;

@@ -14,7 +14,6 @@ using Services.Services;
 
 namespace Delives.pk.Controllers
 {
-    [Authorize]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -61,11 +60,11 @@ namespace Delives.pk.Controllers
         {
 
             ViewBag.ReturnUrl = returnUrl;
-            if (returnUrl != "")
-            {
-                return Json(true, JsonRequestBehavior.AllowGet);
-            }
-            else
+            //if (returnUrl != "")
+            //{
+            //    return Json(true, JsonRequestBehavior.AllowGet);
+            //}
+            //else
             {
                 return View();
             }
@@ -82,14 +81,14 @@ namespace Delives.pk.Controllers
             {
                 return View(model);
             }
-
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var result = await SignInManager.PasswordSignInAsync(model.PhoneNumber, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                  //  return RedirectToAction("Index", "AdOrders");
+                   return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:

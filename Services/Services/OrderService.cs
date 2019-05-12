@@ -64,7 +64,7 @@ namespace Services.Services
                         SerialNo = serial,
                         PickedBy = Guid.Empty.ToString(),
                         UpdatedAt = CommonService.GetSystemTime(),
-                        DeliveryCost = 80
+                        DeliveryCost = CommonService.GetDeliveryAmount()
                     };
                     dbContext.Orders.Add(order);
 
@@ -182,9 +182,8 @@ namespace Services.Services
                 return new GetOrderBySerialNoResponse
                 {
                     Orders = orders,
-                    DeliveryFee = 80,
+                    DeliveryFee = CommonService.GetDeliveryAmount(),
                     DeliveryTime = 50
-
                 };
             }
         }
@@ -214,7 +213,8 @@ namespace Services.Services
                         OrderId = order.Id,
                         DateTime = CommonService.GetSystemTime(),
                         Status = model.NewStatus,
-                        IsCurrent = true
+                        IsCurrent = true,
+                        Comments= model.Comments
                     });
                     dbContext.SaveChanges();
 
@@ -226,7 +226,7 @@ namespace Services.Services
             }
         }
 
-        public static UpdateOrderResponse EditOrder_Admin(Order source)
+        public static UpdateOrderResponse EditOrder_Admin(OrderLocal source)
         {
             var response = new UpdateOrderResponse { };
             using (var dbContext = new DeliversEntities())
@@ -234,6 +234,13 @@ namespace Services.Services
                 var dbOrder = dbContext.Orders.FirstOrDefault(o => o.Id == source.Id);
                 if (dbOrder != null)
                 {
+                    var canEditOrder = true;
+                    #region EDIT
+                    if (dbOrder.Status == OrderHistoryEnu.Deliverd.Value || dbOrder.Status == OrderHistoryEnu.PickedUp.Value)
+                    {
+                        canEditOrder = false;
+                    }
+
                     #region STATUS
                     if (dbOrder.Status != source.Status)
                     {
@@ -251,29 +258,70 @@ namespace Services.Services
                         ChangeOrderStatus(new ChangeOrderStatusRequesrModel {
                              OrderId= source.Id.ToString(),
                             NewStatus= source.Status,
-                            UserId = null
+                            UserId = null,
+                            Comments= source.Comments
                         });
                     }
 
                     #endregion
 
-                    #region EDIT
-                    if (source.Address.ToLower() != dbOrder.Address.ToLower())
+                    var newHist = new OrderHistory
                     {
-                        dbOrder.Address = source.Address;
+                        OrderId = dbOrder.Id,
+                        DateTime = CommonService.GetSystemTime(),
+                        IsCurrent = false,
+                        Status= OrderHistoryEnu.OrderEdited.Value,
+                        Comments= source.Comments
+                    };
+                    var isAddHis = false;
+                    var comm = "";
+
+                   
+                    if (!string.IsNullOrEmpty(source.Address) && source.Address.ToLower() != dbOrder.Address.ToLower())
+                    {
+                        if (canEditOrder)
+                        {
+                            comm = "address changed from '" + dbOrder.Address + "' TO '" + source.Address + "' & ";
+                            dbOrder.Address = source.Address;
+                            isAddHis = true;
+                        }
+                        else
+                        {
+                            response.Status = false;
+                            response.Error = "Can not change address in current status: "+dbOrder.Status;
+                            return response;
+                        }                     
                     }
-                    if (source.Instructions.ToLower() != dbOrder.Instructions.ToLower())
+                    if (!string.IsNullOrEmpty(source.Instructions) && source.Instructions.ToLower() != dbOrder.Instructions.ToLower())
                     {
                         dbOrder.Instructions = source.Instructions;
                     }
-                    if (source.PickedBy.ToLower() != dbOrder.PickedBy.ToLower())
+                    if (!string.IsNullOrEmpty(source.PickedBy) && source.PickedBy.ToLower() != dbOrder.PickedBy.ToLower())
                     {
                         dbOrder.PickedBy = source.PickedBy;
                     }
                     if (source.DeliveryCost != dbOrder.DeliveryCost)
                     {
-                        dbOrder.DeliveryCost = source.DeliveryCost;
+                        if (canEditOrder)
+                        {
+                            comm = comm + "delivery cost changed from " + dbOrder.DeliveryCost + " TO " + source.DeliveryCost + ".";
+                            isAddHis = true;
+                            dbOrder.DeliveryCost = source.DeliveryCost;
+                        }
+                        else
+                        {
+                            response.Status = false;
+                            response.Error = "Can not change delivery cost in current status: " + dbOrder.Status;
+                            return response;
+                        }
                     }
+
+                    if (isAddHis)
+                    {
+                        newHist.Comments = comm;
+                        dbContext.OrderHistories.Add(newHist);
+                    }
+                    
                     dbContext.SaveChanges();
                     response.Status = true;
                     response.Error = "";
@@ -290,7 +338,61 @@ namespace Services.Services
             }
         }
 
-   
+        public static AlterOrderResponse AlterOrder_Admin(AlterOrderRequestModel source)
+        {
+            using (var dbContext = new DeliversEntities())
+            {
+                var response = new AlterOrderResponse {
+                    isSuccesss= true
+                };
+                var totalAmount = source.Items.Sum(i => ItemDetailsService.GetItemDetailLocalById(i.itemId).Price * i.quantity);
+                if (totalAmount <= 0)
+                {
+                    response.isSuccesss = false;
+                    response.Message = "Total amount can not be 0";
+                    return response;
+                }
+                var order = dbContext.Orders.FirstOrDefault(o => o.Id == source.OrderId);
+                if (order != null)
+                {
+                    if(order.Status== OrderHistoryEnu.Deliverd.Value || order.Status == OrderHistoryEnu.PickedUp.Value)
+                    {
+                        response.isSuccesss = false;
+                        response.Message = "Can not change order with status: "+order.Status;
+                        return response;
+                    }
+
+                    if (order.Amount != totalAmount)
+                    {                        
+                        order.Amount = totalAmount;
+                        order.UpdatedAt = CommonService.GetSystemTime();
+                        if (order.OrderDetails != null && order.OrderDetails.Any())
+                        {
+                            foreach (var det in order.OrderDetails)
+                            {
+                                var newQ = source.Items.FirstOrDefault(i => i.itemId == det.ItemId).quantity;
+                                if (newQ != det.Quantity)
+                                {
+                                    det.Quantity = newQ;
+                                }
+                            }
+                            dbContext.OrderHistories.Add(new OrderHistory { DateTime= CommonService.GetSystemTime(),
+                                IsCurrent= false,
+                                OrderId= source.OrderId,
+                                Status= OrderHistoryEnu.OrderAltered.Value,
+                                Comments= source.Comments
+                            });
+                            dbContext.SaveChanges();
+                        }
+                    }                    
+                }
+                return response;
+            }
+
+
+        }
+
+
         public static OrderHistoryEnu GetOrderCurrentStatus(string orderid)
         {
             using (var dbContext = new DeliversEntities())
@@ -389,7 +491,7 @@ namespace Services.Services
 
         public static ApplyRiderResponse ApplyToOrder_ByRider(ApplyByRiderRequestmodel model)
         {
-            string newStatus;
+            string newStatus="";
             using (var dbContext = new DeliversEntities())
             {
                 var order = dbContext.Orders.FirstOrDefault(o => o.Id.ToString() == model.OrderId);
@@ -442,6 +544,8 @@ namespace Services.Services
                     {
                         dbContext.SaveChanges();
                         notAvaialbeORders = 0;
+                        // generate notifications
+                        NotificationService.ProcessNotificationRequest(newStatus, order.Id);
                         return new ApplyRiderResponse
                         {
                             isSuccesss = true,
@@ -455,10 +559,7 @@ namespace Services.Services
                             isSuccesss = false,
                             Message = "Order/part of order has been assigned to some other rider."
                         };
-                    }
-
-                    // generate notifications
-                    NotificationService.ProcessNotificationRequest(newStatus, order.Id);
+                    }                   
                 }
                 return new ApplyRiderResponse
                 {
@@ -679,3 +780,4 @@ namespace Services.Services
 
     }
 }
+ 

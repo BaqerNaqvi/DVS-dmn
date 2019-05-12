@@ -157,6 +157,8 @@ namespace Services.Models
 
         public string UserId { get; set; }
 
+        public string Comments { get; set; }
+
     }
 
     public class ApplyByRiderRequestmodel

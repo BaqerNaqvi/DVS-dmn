@@ -165,7 +165,7 @@ namespace Delives.pk.Apis
             {
                 try
                 {                   
-                    response.Data = new { DeliveryAmount=80, DeliveryTime=50};
+                    response.Data = new { DeliveryAmount=CommonService.GetDeliveryAmount(), DeliveryTime=50};
                     response.Messages.Add("Success");
                     response.Success = true;
                 }

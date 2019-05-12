@@ -429,7 +429,7 @@ namespace Services.Services
 
             #region PICKED UP - SEND NOTIFICATION TO CUSTOMER 
 
-            if (status == OrderHistoryEnu.WaitingForPickup.Value.ToLower())
+            if (status == OrderHistoryEnu.PickedUp.Value.ToLower())
             {
                 using (var dbContext = new DeliversEntities())
                 {

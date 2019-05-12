@@ -12,15 +12,11 @@ namespace Services.DbContext
     using System;
     using System.Collections.Generic;
     
-    public partial class OrderHistory
+    public partial class Sm
     {
         public long Id { get; set; }
-        public long OrderId { get; set; }
-        public string Status { get; set; }
-        public System.DateTime DateTime { get; set; }
-        public bool IsCurrent { get; set; }
-        public string Comments { get; set; }
-    
-        public virtual Order Order { get; set; }
+        public string ToNumber { get; set; }
+        public string Contetns { get; set; }
+        public System.DateTime Time { get; set; }
     }
 }

@@ -14,6 +14,7 @@ using System.Web.Mvc;
 
 namespace Delives.pk.Controllers
 {
+    [Authorize(Roles = "admin,operator")]
     public class PartnerController : Controller
     {
 

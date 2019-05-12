@@ -40,6 +40,8 @@ namespace Services.Models
         public DateTime UpdatedAt { get; set; }
 
         public string RestName { get; set; }
+        public string Comments { get; set; }
+
 
     }
 
@@ -118,6 +120,7 @@ namespace Services.Models
     public class EditOrderModel 
     {
         public OrderLocal Order { get; set; }
+
         public List<UserLocal> Riders { get; set; }
         public List<OrderHistoryEnu> OrderStatus { get; set; }
     }

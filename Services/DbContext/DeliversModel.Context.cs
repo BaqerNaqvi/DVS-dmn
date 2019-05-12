@@ -42,5 +42,6 @@ namespace Services.DbContext
         public virtual DbSet<Rider_Location_Map> Rider_Location_Map { get; set; }
         public virtual DbSet<OrderHistory> OrderHistories { get; set; }
         public virtual DbSet<ListCategory> ListCategories { get; set; }
+        public virtual DbSet<Sm> Sms { get; set; }
     }
 }

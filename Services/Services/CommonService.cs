@@ -100,5 +100,10 @@ namespace Services.Services
             }
             return exist;
         }
+
+        public static int GetDeliveryAmount()
+        {
+            return 0;
+        }
     }
 }

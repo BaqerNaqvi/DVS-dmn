@@ -18,7 +18,7 @@ namespace Services.Services
                 var uobj = dbContext.AspNetUsers.FirstOrDefault(u => u.Id == userid);
                 if (uobj != null)
                 {
-                    response.CustomerName = uobj.FirstName + uobj.LastName;
+                    response.CustomerName = uobj.FirstName +" "+ uobj.LastName;
                     var orders = dbContext.Orders.Where(o => o.OrderBy == userid).ToList();
                     if (orders.Any())
                     {

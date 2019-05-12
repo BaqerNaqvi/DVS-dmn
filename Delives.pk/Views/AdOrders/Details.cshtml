@@ -3,6 +3,15 @@
     ViewBag.Title = "Order Details";
 
 }
+<style>
+    #chageComments{
+        width: 25%;
+    float: right;
+    margin-left: 7px;
+    }
+</style>
+<script src="~/Scripts/Order/order-details.js"></script>
+
 <div>
     <h3>Order Details</h3>
     <hr />
@@ -106,7 +115,8 @@
 
     <h3>Items</h3>
     <hr />
-    <span>@restId <strong> - @restName </strong> - @restAddress -  @restPhone </span>
+   <div><span>@restId <strong> - @restName </strong> - @restAddress -  @restPhone </span>
+       <img style="width: 40px;display:none" id="loading" src="~/Content/Images/loading.gif" /><input placeholder="Comments here" class="form-control"  id="chageComments" type="text"/> <button class="btn btn-danger" style="float: right;" onclick="orderDetails.updateOrderItems()">Update</button> </div>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -128,7 +138,7 @@
                             <td>@his.Id</td>
                             <td>@his.ItemName</td>
                             <td>@his.ItemDetail.Price</td>
-                            <td>@his.Quantity</td>
+                            <td><input class="edit-item-input" style="width: 30%;" min="0" max="50" type="number" data-itemId="@his.ItemId" value="@his.Quantity"/></td>
                             <td>@(his.Quantity*his.ItemDetail.Price)</td>
                         </tr>
                     }
@@ -163,6 +173,8 @@
                 <th>Status</th>
                 <th>Time</th>
                 <th>Current</th>
+                <th>Comments</th>
+
             </tr>
         </thead>
         <tbody>
@@ -172,10 +184,16 @@
                 {
                     foreach (var his in Model.History)
                     {
+                        var cls = "";
+                        if (his.IsCurrent)
+                        {
+                            cls = "recentStatus";
+                        }
                         <tr>
-                            <td>@his.Status</td>
+                            <td class="@cls">@his.Status</td>
                             <td>@his.DateTime.ToLongDateString() @his.DateTime.ToLongTimeString()</td>
                             <td>@his.IsCurrent</td>
+                            <td>@his.Comments</td>
                         </tr>
                     }
                 }
@@ -186,6 +204,9 @@
     </table>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    <button class="btn btn-primary"><a href="/AdOrders/Edit/@Model.Id">Edit Order</a></button>
+    <button class="btn btn-default"><a href="/AdOrders/Index">Back to List</a></button>
 </p>
+<script>
+    var editOrderId= @Model.Id;
+</script>

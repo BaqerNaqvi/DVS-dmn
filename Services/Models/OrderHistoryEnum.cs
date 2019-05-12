@@ -17,6 +17,12 @@ namespace Services.Models
         public string Value { get; set; }
         public int Order { get; set; }
 
+
+        public static OrderHistoryEnu OrderAltered { get { return new OrderHistoryEnu("OrderAltered", 40); } }
+
+        public static OrderHistoryEnu OrderEdited { get { return new OrderHistoryEnu("OrderEdited", 41); } }
+
+        ////////////////////////////////////
         public static OrderHistoryEnu Placed { get { return new OrderHistoryEnu("Placed",0); } }
         public static OrderHistoryEnu CanceledByCustomer { get { return new OrderHistoryEnu("CanceledByCustomer", 1); } }
         public static OrderHistoryEnu CanceledByRestaurant { get { return new OrderHistoryEnu("CanceledByRestaurant", 1); } }

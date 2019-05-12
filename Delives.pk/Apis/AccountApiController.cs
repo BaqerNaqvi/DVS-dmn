@@ -159,17 +159,17 @@ namespace Delives.pk.Apis
                     if (user != null)
                     {
                         var status = UserManager.ChangePhoneNumber(user.Id, user.PhoneNumber, model.Code);
-                      //  if (status.Succeeded)
+                        if (status.Succeeded)
                         {
                             user.PhoneNumberConfirmed = true;
                             UserManager.Update(user);
                             response.Success = true;
                             response.Messages.Add("Your phone number has been verified.");
                         }
-                        //else
-                        //{
-                        //    response.Messages.Add("Invalid Code");
-                        //}
+                        else
+                        {
+                            response.Messages.Add("Invalid Code");
+                        }
                     }
                     else
                     {

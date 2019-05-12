@@ -38,6 +38,7 @@
         <EntityTypeShape EntityType="DeliversModel.OrderHistory" Width="1.5" PointX="7.25" PointY="7.25" />
         <AssociationConnector Association="DeliversModel.FK_OrderHistory_Order" />
         <EntityTypeShape EntityType="DeliversModel.ListCategory" Width="1.5" PointX="0.75" PointY="12.75" />
+        <EntityTypeShape EntityType="DeliversModel.Sm" Width="1.5" PointX="12.375" PointY="9.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

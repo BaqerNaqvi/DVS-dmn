@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Services.DbContext;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -42,40 +43,52 @@ namespace Services.Services
 
         public static string SendSms(string mobile, string contents)
         {
-            SendSMS(mobile, contents, "923466043805", "3186");
-            return "okay";
-            const string url = "http://www.sms4connect.com/api/sendsms.php/sendsms/url";
-            String result = "";
-            String message = System.Web.HttpUtility.UrlEncode(contents);
-            String strPost = "id=kissaneng&pass=pakistan6&msg=" + message +
-                             "&to=" + mobile + "&mask=KamShamHelp&type=json&lang=English";
-            // "&to=923084449991" + "&mask=SMS4CONNECT&type=xml&lang=English";
-            StreamWriter myWriter = null;
-            HttpWebRequest objRequest = (HttpWebRequest)WebRequest.Create(url);
-            objRequest.Method = "POST";
-            objRequest.ContentLength = Encoding.UTF8.GetByteCount(strPost);
-            objRequest.ContentType = "application/x-www-form-urlencoded";
-            try
+            var response = SendSMS(mobile, contents, "923466043805", "3186");
+            if(response!=null && response.Contains("OK"))
             {
-                myWriter = new StreamWriter(objRequest.GetRequestStream());
-                myWriter.Write(strPost);
+                using (var dbContext = new DeliversEntities()) {
+                    var sms = new Sm {
+                        Contetns= contents,
+                        Time= CommonService.GetSystemTime(),
+                        ToNumber=mobile
+                    };
+                    dbContext.Sms.Add(sms);
+                    dbContext.SaveChanges();
+                }
             }
-            catch (Exception e)
-            {
-                return e.Message;
-            }
-            finally
-            {
-                myWriter.Close();
-            }
-            HttpWebResponse objResponse = (HttpWebResponse)objRequest.GetResponse();
-            using (StreamReader sr = new StreamReader(objResponse.GetResponseStream()))
-            {
-                result = sr.ReadToEnd();
-                // Close and clean up the StreamReader
-                sr.Close();
-            }
-            return result;
+            return response;
+            //const string url = "http://www.sms4connect.com/api/sendsms.php/sendsms/url";
+            //String result = "";
+            //String message = System.Web.HttpUtility.UrlEncode(contents);
+            //String strPost = "id=kissaneng&pass=pakistan6&msg=" + message +
+            //                 "&to=" + mobile + "&mask=KamShamHelp&type=json&lang=English";
+            //// "&to=923084449991" + "&mask=SMS4CONNECT&type=xml&lang=English";
+            //StreamWriter myWriter = null;
+            //HttpWebRequest objRequest = (HttpWebRequest)WebRequest.Create(url);
+            //objRequest.Method = "POST";
+            //objRequest.ContentLength = Encoding.UTF8.GetByteCount(strPost);
+            //objRequest.ContentType = "application/x-www-form-urlencoded";
+            //try
+            //{
+            //    myWriter = new StreamWriter(objRequest.GetRequestStream());
+            //    myWriter.Write(strPost);
+            //}
+            //catch (Exception e)
+            //{
+            //    return e.Message;
+            //}
+            //finally
+            //{
+            //    myWriter.Close();
+            //}
+            //HttpWebResponse objResponse = (HttpWebResponse)objRequest.GetResponse();
+            //using (StreamReader sr = new StreamReader(objResponse.GetResponseStream()))
+            //{
+            //    result = sr.ReadToEnd();
+            //    // Close and clean up the StreamReader
+            //    sr.Close();
+            //}
+            //return result;
         }
 
         public static string SendSMS(string toNumber, string MessageText, string MyUsername, string MyPassword)
