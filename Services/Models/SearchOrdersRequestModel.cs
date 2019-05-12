@@ -18,7 +18,7 @@ namespace Services.Models
         public string Status { get; set; }
         public long? Restaurant { get; set; }
         public string Rider { get; set; }
-        public DateTime OrderDateFrom { get; set; }
-        public DateTime OrderDateTo { get; set; }
+        public DateTime? OrderDateFrom { get; set; }
+        public DateTime? OrderDateTo { get; set; }
     }
 }

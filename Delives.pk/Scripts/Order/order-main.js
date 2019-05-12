@@ -206,13 +206,15 @@ $(document).ready(() => {
 
 //Move these to a common file later on!
 var showProgress = () => {
-    $('#status').show(); // will first fade out the loading animation
-    $('#preloader').show(); // will fade out the white DIV that covers the website.
+    //$('#status').show(); // will first fade out the loading animation
+    //$('#preloader').show(); // will fade out the white DIV that covers the website.
+    $("#loader-div").show();
 };
-var hideProgress= () => {
-    $('#status').fadeOut(); // will first fade out the loading animation
-    $('#preloader').delay(250).fadeOut('slow'); // will fade out the white DIV that covers the website.
-}
+var hideProgress = () => {
+    //$('#status').fadeOut(); // will first fade out the loading animation
+    //$('#preloader').delay(250).fadeOut('slow'); // will fade out the white DIV that covers the website.
+    $("#loader-div").hide();
+};
 
 //setTimeout(function () {
 //    location.reload();

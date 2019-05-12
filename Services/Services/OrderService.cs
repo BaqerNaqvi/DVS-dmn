@@ -8,6 +8,7 @@ using Services.DbContext;
 using Services.Models;
 using System.Data.Entity.Spatial;
 using System.Globalization;
+using System.Data.Entity;
 
 namespace Services.Services
 {
@@ -714,25 +715,25 @@ namespace Services.Services
                     //).ToList().OrderByDescending(o => o.Id).Select(o => o.MappOrder()).ToList();
 
                     //temp code,remove asap.
-                    var abc = dbContext.Orders.ToList();
+                    //var abc = dbContext.Orders.ToList();
                     var results = dbContext.Orders.Where(x => (string.IsNullOrEmpty(source.Status) || x.Status == source.Status)
                     && (string.IsNullOrEmpty(source.Rider) || (source.Rider == x.PickedBy))
                     && (source.Restaurant == null || (source.Restaurant == x.OrderDetails.FirstOrDefault().RestId))
 
                     );
 
-                    if (source.OrderDateFrom != DateTime.MinValue && source.OrderDateTo != DateTime.MinValue)
+                    if (source.OrderDateFrom != null && source.OrderDateTo != null)
                     {
-                        results.Where(x => x.DateTime.Date.CompareTo(source.OrderDateFrom) > -1 && x.DateTime.CompareTo(source.OrderDateTo) < 1);
+                        results = results.Where(x => Nullable.Compare((DbFunctions.TruncateTime(x.DateTime)), source.OrderDateFrom) > -1 && Nullable.Compare((DbFunctions.TruncateTime(x.DateTime)), source.OrderDateTo) < 1);
                     }
 
-                    else if (source.OrderDateTo != DateTime.MinValue)
+                    else if (source.OrderDateTo != null)
                     {
-                        results= results.Where(x=>x.DateTime.Date.CompareTo(source.OrderDateTo) < 1);
+                        results= results.Where(x=> Nullable.Compare((DbFunctions.TruncateTime(x.DateTime)), source.OrderDateTo) < 1);
                     }
-                    else if(source.OrderDateFrom != DateTime.MinValue)
+                    else if(source.OrderDateFrom != null)
                     {
-                        results = results.Where(x => x.DateTime.Date.CompareTo(source.OrderDateFrom) > -1);
+                        results = results.Where(x => Nullable.Compare((DbFunctions.TruncateTime(x.DateTime)), source.OrderDateFrom) > -1);
                     }
                     var _filtered = results.ToList().OrderByDescending(o => o.Id).Select(o => o.MappOrder()).ToList();
 
