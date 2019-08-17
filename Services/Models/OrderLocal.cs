@@ -124,4 +124,5 @@ namespace Services.Models
         public List<UserLocal> Riders { get; set; }
         public List<OrderHistoryEnu> OrderStatus { get; set; }
     }
+
 }

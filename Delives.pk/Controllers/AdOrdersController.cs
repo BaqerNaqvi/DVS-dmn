@@ -9,6 +9,10 @@ using System.Web.Mvc;
 using Services.DbContext;
 using Services.Services;
 using Services.Models;
+using System.Threading.Tasks;
+using System.Linq.Expressions;
+using Services.Helpers;
+
 namespace Delives.pk.Controllers
 {
 
@@ -30,7 +34,7 @@ namespace Delives.pk.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var order =OrderService.GetOrderDetails(id);
+            var order = OrderService.GetOrderDetails(id);
             return View(order);
         }
 
@@ -73,6 +77,114 @@ namespace Delives.pk.Controllers
             };
             return View(refMOdel);
         }
+
+        #region Filters section
+
+        public JsonResult GetAllOrderStatuses()
+        {
+
+            var retModel = new AllOrderStatuses
+            {
+                Success = false
+            };
+
+            try
+            {
+                retModel.ListStatuses = OrderHistoryEnu.GetAllOrderStatus();
+                retModel.Success = true;
+            }
+            catch (Exception e)
+            {
+                retModel.Message = "could not get order statuses.";
+                throw;
+            }
+
+            return Json(retModel, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public JsonResult GetAllRestaurants()
+        {
+            var retModel = new AllRestaurants
+            {
+                Success = false
+            };
+
+            try
+            {
+                retModel.ListRestaurants = ListService.GetItemsForSearch_AdminPanel();
+                retModel.Success = true;
+            }
+            catch (Exception e)
+            {
+                retModel.Message = "could not get restaurants.";
+                throw;
+            }
+
+            return Json(retModel, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public JsonResult GetAllRiders()
+        {
+            var retModel = new AllRiders
+            {
+                Success = false
+            };
+
+            try
+            {
+                retModel.ListRiders = UserService.GetUsersByype("0");
+                retModel.Success = true;
+            }
+            catch (Exception e)
+            {
+                retModel.Message = "could not get riders.";
+                throw;
+            }
+
+            return Json(retModel, JsonRequestBehavior.AllowGet);
+        }
+
+
+        [HttpPost]
+        //SearchOrdersRequestModelSingle
+        //        public ActionResult SearchOrders(SearchOrdersRequestModel obj)
+        public ActionResult SearchOrders(SearchOrdersRequestModelSingle obj)
+        {
+            try
+            {
+                //var predicate = PredicateBuilder.BuildPredicateForOrdersSearching(obj);
+
+                //if (obj.ListRestaurants == null)
+                //{
+                //    obj.ListRestaurants = new List<long?>();
+                //}
+                //if (obj.ListRiders == null)
+                //{
+                //    obj.ListRiders = new List<string>();
+                //}
+                //if (obj.ListStatuses == null)
+                //{
+                //    obj.ListStatuses = new List<string>();
+                //}
+                var orders = OrderService.GetFilteredOrdersSingle_Admin(obj);
+                return View("~/Views/AdOrders/_OrdersTable.cshtml", orders.ToList());
+            }
+            catch (Exception e)
+            {
+                //log ex here
+                //throw;
+                return null;
+            }
+        }
+
+        //private Expression<Func<OrderLocal, bool>> BuildPredicate()
+        //{
+        //    Expression<Func<OrderLocal, bool>> predicate = PredicateBuilder.False<products>();
+        //}
+        #endregion
+
 
         [HttpPost]
         public JsonResult AlterOrder(AlterOrderRequestModel source)

@@ -8,6 +8,7 @@ using Services.DbContext;
 using Services.Models;
 using System.Data.Entity.Spatial;
 using System.Globalization;
+using System.Data.Entity;
 
 namespace Services.Services
 {
@@ -771,8 +772,80 @@ namespace Services.Services
         {
             using (var dbContext = new DeliversEntities())
             {
-                var orders = dbContext.Orders.ToList().OrderByDescending(o=> o.Id).Select(o=> o.MappOrder()).ToList();
+                var orders = dbContext.Orders.ToList().OrderByDescending(o => o.Id).Select(o => o.MappOrder()).ToList();
                 return orders;
+            }
+        }
+
+        public static List<OrderLocal> GetFilteredOrders_Admin(SearchOrdersRequestModel source)
+        {
+            using (var dbContext = new DeliversEntities())
+            {
+                try
+                {
+                    //var results = dbContext.Orders.Where(x => (source.ListStatuses.Count == 0 || (source.ListStatuses.Any(s => s == x.Status))) &&
+                    //(source.ListRiders.Count == 0 || (source.ListRiders.Any(s => x.PickedBy.Equals(s)))) &&
+                    //(source.ListRestaurants.Count == 0 || (source.ListRestaurants.Any(s => x.OrderDetails.FirstOrDefault().ItemDetail.Id == s)))
+                    //).ToList().OrderByDescending(o => o.Id).Select(o => o.MappOrder()).ToList();
+                    var abc = dbContext.Orders.ToList();
+                    var results = dbContext.Orders.Where(x => (source.ListStatuses.Count == 0)
+                    && (source.ListRiders.Count == 0 || (source.ListRiders.Any(s => x.PickedBy.Equals(s))))
+                    ).ToList().OrderByDescending(o => o.Id).Select(o => o.MappOrder()).ToList();
+                    return results;
+                }
+                catch (Exception e)
+                {
+                    return null;
+                    //throw;
+                }
+
+                //var orders = dbContext.Orders.ToList().OrderByDescending(o => o.Id).Select(o => o.MappOrder()).ToList();
+            }
+        }
+
+        public static List<OrderLocal> GetFilteredOrdersSingle_Admin(SearchOrdersRequestModelSingle source)
+        {
+            using (var dbContext = new DeliversEntities())
+            {
+                try
+                {
+                    //var results = dbContext.Orders.Where(x => (source.ListStatuses.Count == 0 || (source.ListStatuses.Any(s => s == x.Status))) &&
+                    //(source.ListRiders.Count == 0 || (source.ListRiders.Any(s => x.PickedBy.Equals(s)))) &&
+                    //(source.ListRestaurants.Count == 0 || (source.ListRestaurants.Any(s => x.OrderDetails.FirstOrDefault().ItemDetail.Id == s)))
+                    //).ToList().OrderByDescending(o => o.Id).Select(o => o.MappOrder()).ToList();
+
+                    //temp code,remove asap.
+                    //var abc = dbContext.Orders.ToList();
+                    var results = dbContext.Orders.Where(x => (string.IsNullOrEmpty(source.Status) || x.Status == source.Status)
+                    && (string.IsNullOrEmpty(source.Rider) || (source.Rider == x.PickedBy))
+                    && (source.Restaurant == null || (source.Restaurant == x.OrderDetails.FirstOrDefault().RestId))
+
+                    );
+
+                    if (source.OrderDateFrom != null && source.OrderDateTo != null)
+                    {
+                        results = results.Where(x => Nullable.Compare((DbFunctions.TruncateTime(x.DateTime)), source.OrderDateFrom) > -1 && Nullable.Compare((DbFunctions.TruncateTime(x.DateTime)), source.OrderDateTo) < 1);
+                    }
+
+                    else if (source.OrderDateTo != null)
+                    {
+                        results= results.Where(x=> Nullable.Compare((DbFunctions.TruncateTime(x.DateTime)), source.OrderDateTo) < 1);
+                    }
+                    else if(source.OrderDateFrom != null)
+                    {
+                        results = results.Where(x => Nullable.Compare((DbFunctions.TruncateTime(x.DateTime)), source.OrderDateFrom) > -1);
+                    }
+                    var _filtered = results.ToList().OrderByDescending(o => o.Id).Select(o => o.MappOrder()).ToList();
+
+                    return _filtered;
+                }
+                catch (Exception e)
+                {
+                    return null;
+                    //throw;
+                }
+
+                //var orders = dbContext.Orders.ToList().OrderByDescending(o => o.Id).Select(o => o.MappOrder()).ToList();
             }
         }
 
